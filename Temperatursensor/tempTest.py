@@ -1,5 +1,5 @@
 import gpio as GPIO
 
-#TODO: Needs setup first
+GPIO.setup(7, GPIO.OUT)
 
 print(GPIO.read(7))
