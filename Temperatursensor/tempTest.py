@@ -1,6 +1,5 @@
-from gpiozero import OutputDevice
+from gpiozero import InputDevice
 
-temp = OutputDevice(4)
+temp = InputDevice(4)
 
 print("value" + str(temp.value))
-print("source" + temp.source)
