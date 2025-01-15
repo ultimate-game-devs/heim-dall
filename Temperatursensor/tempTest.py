@@ -2,6 +2,8 @@ import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 
-func = GPIO.gpio_function(4)
+GPIO.setup(4, GPIO.OUT)
 
-print(func)
+event = GPIO.event_detected(4)
+
+print(event)
