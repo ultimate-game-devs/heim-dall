@@ -1,4 +1,4 @@
-from gpiozero import DHT11
+import DHT11
 from time import sleep
 
 sensor = DHT11(4)  # GPIO4
