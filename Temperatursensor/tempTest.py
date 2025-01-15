@@ -1,5 +1,7 @@
-import gpio as GPIO
+import RPi.GPIO as GPIO
 
-GPIO.setup(7, GPIO.OUT)
+GPIO.setmode(GPIO.BOARD)
 
-print(GPIO.read(7))
+func = GPIO.gpio_function(4)
+
+print(func)
