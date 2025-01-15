@@ -1,5 +1,15 @@
-from gpiozero import InputDevice
+import adafruit_dht
+from gpiozero import Device
+from gpiozero.pins.native import NativeFactory
 
-temp = InputDevice(4)
+Device.pin_factory = NativeFactory()
 
-print("value" + str(temp.value))
+dht_sensor = adafruit_dht.DHT11(4)
+
+try:
+    temperature = dht_sensor.temperature
+    humidity = dht_sensor.humidity
+    print(f"Temperature: {temperature:.2f}°C, Humidity: {humidity:.2f}%")
+except RuntimeError as e:
+    print(f"Error reading sensor: {e}")
+
