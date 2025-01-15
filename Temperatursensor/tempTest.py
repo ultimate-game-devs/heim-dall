@@ -1,15 +1,15 @@
-import adafruit_dht
-from gpiozero import Device
-from gpiozero.pins.native import NativeFactory
+from gpiozero import DHT11
+from time import sleep
 
-Device.pin_factory = NativeFactory()
+sensor = DHT11(4)  # GPIO4
 
-dht_sensor = adafruit_dht.DHT11(4)
+while True:
+    temperature = sensor.temperature
+    humidity = sensor.humidity
+    if temperature is not None and humidity is not None:
+        print(f"Temp: {temperature}°C, Humidity: {humidity}%")
+    else:
+        print("Failed to get reading. Trying again...")
+    sleep(2)
 
-try:
-    temperature = dht_sensor.temperature
-    humidity = dht_sensor.humidity
-    print(f"Temperature: {temperature:.2f}°C, Humidity: {humidity:.2f}%")
-except RuntimeError as e:
-    print(f"Error reading sensor: {e}")
 
