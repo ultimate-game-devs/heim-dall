@@ -1,9 +1,7 @@
-import RPi.GPIO as GPIO
+from gpiozero import OutputDevice
 
-GPIO.setmode(GPIO.BOARD)
+temp = OutputDevice(4)
 
-GPIO.setup(4, GPIO.OUT)
-
-event = GPIO.event_detected(4)
-
-print(event)
+print("values" + temp.values)
+print("value" + temp.value)
+print("source" + temp.source)
