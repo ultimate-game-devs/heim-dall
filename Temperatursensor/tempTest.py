@@ -6,7 +6,7 @@ dht_sensor = adafruit_dht.DHT11(board.D4)
 
 while True:
     try:
-        print(time.time())
+        print(time.localtime())
         temperature = dht_sensor.temperature
         humidity = dht_sensor.humidity
         if humidity is not None and temperature is not None:
