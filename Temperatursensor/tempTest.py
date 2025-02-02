@@ -14,6 +14,10 @@ while True:
             print(f"Temperature - {temperature}°C | Humidity - {humidity}%")
         else:
             print(f"Error: Temperature ({temperature}) or Huminity ({humidity}) None")
+    except RuntimeError as error:
+        print(error.args[0])
+        time.sleep(2.0)
+        continue
     except Exception as error:
         dht_sensor.exit()
         raise error
