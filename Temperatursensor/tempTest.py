@@ -1,15 +1,14 @@
-import DHT11
-from time import sleep
+import Adafruit_DHT
+import time
 
-sensor = DHT11(4)  # GPIO4
+DHT_SENSOR = Adafruit_DHT.DHT11
+DHT_PIN = 4
 
 while True:
-    temperature = sensor.temperature
-    humidity = sensor.humidity
-    if temperature is not None and humidity is not None:
-        print(f"Temp: {temperature}°C, Humidity: {humidity}%")
+    print(time.time())
+    humidity, temperature = Adafruit_DHT.read(DHT_SENSOR, DHT_PIN)
+    if humidity is not None and temperature is not None:
+        print(f"Temperature - {temperature} | Humidity - {humidity}")
     else:
-        print("Failed to get reading. Trying again...")
-    sleep(2)
-
-
+        print(f"Error: Temperature ({temperature}) or Huminity ({humidity}) None")
+    time.sleep(3)
