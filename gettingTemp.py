@@ -1,8 +1,7 @@
 from setUpSensor import setUpDHT11ONFour
 
-def getTemp() -> float | None:
+def getTemp(sensor) -> float | None:
     try:
-        sensor = setUpDHT11ONFour()
         temperature = sensor.temperature
         sensor.exit()
         return temperature

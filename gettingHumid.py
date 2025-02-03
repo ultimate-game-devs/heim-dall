@@ -1,8 +1,7 @@
 from setUpSensor import setUpDHT11ONFour
 
-def getHumid() -> float | None:
+def getHumid(sensor) -> float | None:
     try:
-        sensor = setUpDHT11ONFour()
         humidity = sensor.humidity
         sensor.exit()
         return humidity
