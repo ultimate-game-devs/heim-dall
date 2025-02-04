@@ -38,7 +38,42 @@ indent-width = 2
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
-select = ["E4", "E7", "E9", "F"]
+select = [
+    "F",
+    "E4",
+    "E501",
+    "E7",
+    "E9",
+    "I002",
+    "N8",
+    "UP007",
+    "UP008",
+    "ANN0",
+    "ANN2",
+    "ANN4",
+    "B002",
+    "B014",
+    "B015",
+    "B018",
+    "A",
+    "COM8",
+    "RET",
+    "SLF",
+    "SIM102",
+    "SIM103",
+    "SIM107",
+    "SIM201",
+    "SIM202",
+    "SIM208",
+    "ARG",
+    "ERA",
+    "PLC0206",
+    "PLE0100",
+    "PLE0101",
+    "PLE1704",
+    "PLE1711",
+    "PLW0127",
+]
 ignore = []
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
