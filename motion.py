@@ -40,4 +40,4 @@ while True:
     #     # When disabled, ensure LED is off regardless of sensor state
     #     led.value = False
 
-    # time.sleep(0.1)  # Short delay for stable reading
+    time.sleep(0.1)  # Short delay for stable reading
