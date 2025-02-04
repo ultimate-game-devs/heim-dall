@@ -23,3 +23,5 @@ while True:
 
         last_change_time = current_time
         previous_state = current_state
+
+        time.sleep(0.2)
