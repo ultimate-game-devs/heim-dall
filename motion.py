@@ -6,11 +6,6 @@ import digitalio
 pir = digitalio.DigitalInOut(board.D17)
 pir.direction = digitalio.Direction.INPUT
 
-# Setup for LED (output to LED)
-led = digitalio.DigitalInOut(board.D18)
-led.direction = digitalio.Direction.OUTPUT
-led.value = False
-
 previous_state = None
 last_change_time = time.time()
 
@@ -18,8 +13,6 @@ while True:
     # Read current sensor state: True indicates motion, False indicates no motion
     current_state = pir.value
     current_time = time.time()
-
-    led.value = current_state
 
     # Calculate time difference since the last state change
     time_diff = current_time - last_change_time
