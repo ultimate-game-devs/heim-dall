@@ -29,10 +29,12 @@ while True:
     #
     # # When sensor is enabled, check PIR sensor output
     # if sensor_enabled:
-        if pir_sensor.value:  # PIR sensor has detected motion
-            led.value = True
-        else:
-            led.value = False
+    if pir_sensor.value:  # PIR sensor has detected motion
+        print(pir_sensor.value)
+        led.value = True
+    else:
+        print(pir_sensor.value)
+        led.value = False
     # else:
     #     # When disabled, ensure LED is off regardless of sensor state
     #     led.value = False
