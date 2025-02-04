@@ -1,5 +1,6 @@
 import adafruit_dht
 import board
 
-def setUpDHT11ONFour():
-    return adafruit_dht.DHT11(board.D4)
+
+def setupdht11() -> adafruit_dht.DHT11:
+	return adafruit_dht.DHT11(board.D4)
