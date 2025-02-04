@@ -18,7 +18,10 @@ while True:
     if current_state != previous_state:
         timestamp = time.strftime('%H:%M:%S', time.localtime(current_time))
 
-        state_str = "Button Pressed" if not current_state else "Button no longer pressed"
+        state_str = "Button Pressed"
+        if current_state:
+            "Button no longer pressed"
+
         print(f"{timestamp} - {state_str} (Δ {time_diff:.2f} seconds)")
 
         last_change_time = current_time
