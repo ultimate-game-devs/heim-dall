@@ -26,7 +26,7 @@ while True:
 
     # Check for a change in state
     if current_state != previous_state:
-        timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(current_time))
+        timestamp = time.strftime('%H:%M:%S', time.localtime(current_time))
 
         # Log the current time and new state
         state_str = "Motion Detected" if current_state else "No Motion"
