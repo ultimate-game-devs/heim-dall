@@ -82,7 +82,7 @@ unfixable = []
 
 [format]
 quote-style = "single"
-indent-style = "tabs"
+indent-style = "tab"
 skip-magic-trailing-comma = false
 line-ending = "auto"
 
