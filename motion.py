@@ -3,41 +3,25 @@ import board
 import digitalio
 
 # Setup for PIR sensor (output from sensor)
-pir_sensor = digitalio.DigitalInOut(board.D17)
-pir_sensor.direction = digitalio.Direction.INPUT
+pir = digitalio.DigitalInOut(board.D17)
+pir.direction = digitalio.Direction.INPUT
 
 # Setup for LED (output to LED)
 led = digitalio.DigitalInOut(board.D18)
 led.direction = digitalio.Direction.OUTPUT
 led.value = False
 
-# Setup for button (to toggle sensor on/off)
-# button = digitalio.DigitalInOut(board.D23)
-# button.direction = digitalio.Direction.INPUT
-# button.pull = digitalio.Pull.UP  # Enable internal pull-up resistor
-
-# Variable to keep track of sensor state (enabled/disabled)
-# sensor_enabled = True
-# print("System started. Sensor enabled:", sensor_enabled)
-
 while True:
-    # Check for button press (active low)
-    # if not button.value:  # Button is pressed
-    #     sensor_enabled = not sensor_enabled  # Toggle sensor state
-    #     print("Sensor enabled:", sensor_enabled)
-    #     # Debounce delay to avoid multiple toggles on one press
-    #     time.sleep(0.5)
-    #
-    # # When sensor is enabled, check PIR sensor output
-    # if sensor_enabled:
-    if pir_sensor.value:  # PIR sensor has detected motion
-        print(pir_sensor.value)
-        led.value = True
-    else:
-        print(pir_sensor.value)
-        led.value = False
-    # else:
-    #     # When disabled, ensure LED is off regardless of sensor state
-    #     led.value = False
+    # Read current sensor state: True indicates motion, False indicates no motion
+    current_state = pir.value
+    led.value = current_state
 
-    time.sleep(0.1)  # Short delay for stable reading
+    # Check for a change in state
+    if current_state != previous_state:
+        # Log the current time and new state
+        state_str = "Motion Detected" if current_state else "No Motion"
+        print(f"{time.strftime('%H:%M:%S')} - {state_str}")
+        previous_state = current_state
+
+    # Small delay for stability
+    time.sleep(0.1)
