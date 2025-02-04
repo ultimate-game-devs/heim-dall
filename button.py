@@ -4,7 +4,7 @@ import digitalio
 
 button = digitalio.DigitalInOut(board.D23)
 button.direction = digitalio.Direction.INPUT
-button.pull = digitalio.Pull.UP
+button.pull = digitalio.Pull.DOWN
 
 previous_state = button.value
 last_change_time = time.time()
