@@ -11,6 +11,8 @@ led = digitalio.DigitalInOut(board.D18)
 led.direction = digitalio.Direction.OUTPUT
 led.value = False
 
+previous_state = not pir.value
+
 while True:
     # Read current sensor state: True indicates motion, False indicates no motion
     current_state = pir.value
