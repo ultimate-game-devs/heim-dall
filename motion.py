@@ -9,6 +9,7 @@ pir_sensor.direction = digitalio.Direction.INPUT
 # Setup for LED (output to LED)
 led = digitalio.DigitalInOut(board.D18)
 led.direction = digitalio.Direction.OUTPUT
+led.value = False
 
 # Setup for button (to toggle sensor on/off)
 # button = digitalio.DigitalInOut(board.D23)
