@@ -18,7 +18,7 @@ class Sensor(ABC):
 		pass
 
 	@abstractmethod
-	def get_data(self) -> float:
+	def get_data(self) -> None:
 		pass
 
 
@@ -45,3 +45,14 @@ class DHT11(Sensor):
 		except Exception as error:
 			print(error)
 			return None
+
+
+class Motion(Sensor):
+	def __init__(self, pin_number: int) -> None:
+		self.sensor = setUp.motion(pin_number)
+
+	def __exit__(self) -> None:
+		self.sensor.deinit()
+
+	def get_data(self) -> bool:
+		return self.sensor.value
