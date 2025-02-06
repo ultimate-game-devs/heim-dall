@@ -8,7 +8,7 @@ dht_data = TypedDict(
 )
 
 
-class Sensor(ABC):
+class InputDevice(ABC):
 	@abstractmethod
 	def __init__(self, pin_number: int) -> None:
 		pass
@@ -22,7 +22,7 @@ class Sensor(ABC):
 		pass
 
 
-class DHT11(Sensor):
+class DHT11(InputDevice):
 	def __init__(self, pin_number: int) -> None:
 		self.sensor = setUp.dht11(pin_number)
 
@@ -47,7 +47,7 @@ class DHT11(Sensor):
 			return None
 
 
-class Motion(Sensor):
+class Motion(InputDevice):
 	def __init__(self, pin_number: int) -> None:
 		self.sensor = setUp.motion(pin_number)
 
