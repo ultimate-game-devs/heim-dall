@@ -13,3 +13,11 @@ def motion(pin_number: int) -> digitalio.DigitalInOut:
 	pir = digitalio.DigitalInOut(board_pin)
 	pir.direction = digitalio.Direction.INPUT
 	return pir
+
+
+def button(pin_number: int) -> digitalio.DigitalInOut:
+	board_pin = getattr(board, f'D{pin_number}')
+	btn = digitalio.DigitalInOut(board_pin)
+	btn.direction = digitalio.Direction.INPUT
+	btn.pull = digitalio.Pull.UP
+	return btn
