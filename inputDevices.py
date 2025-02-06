@@ -56,3 +56,14 @@ class Motion(InputDevice):
 
 	def get_data(self) -> bool:
 		return self.sensor.value
+
+
+class Button(InputDevice):
+	def __init__(self, pin_number: int) -> None:
+		self.button = setUp.button(pin_number)
+
+	def __exit__(self) -> None:
+		self.button.deinit()
+
+	def get_data(self) -> bool:
+		return self.button.value
