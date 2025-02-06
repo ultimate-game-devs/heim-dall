@@ -1,16 +1,13 @@
 from time import localtime
 
-from gettingHumid import gethumid
-from gettingTemp import gettemp
-from setUpSensor import setupdht11
+from sensor import DHT11
 
 while True:
 	now = localtime()
 	print(f'~~~ {now.tm_hour}:{now.tm_min}:{now.tm_sec} ~~~')
-	sensor = setupdht11()
-	temperature = gettemp(sensor)
-	humidity = gethumid(sensor)
-	if humidity is not None and temperature is not None:
-		print(f'Temperature - {temperature}°C | Humidity - {humidity}%')
+	dht = DHT11(4)
+	dht_data = dht.get_data()
+	if dht_data['temperature'] is not None and dht_data['humidity'] is not None:
+		print(f'Temp - {dht_data["temperature"]}°C | Humid - {dht_data["humidity"]}%')
 	else:
 		raise 'Error: Temperature or Huminity None'
