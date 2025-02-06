@@ -1,6 +1,6 @@
 from time import localtime
 
-from sensor import DHT11
+from inputDevices import DHT11
 
 while True:
 	now = localtime()

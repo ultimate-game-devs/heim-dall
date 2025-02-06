@@ -1,6 +1,6 @@
 import time
 
-from sensor import Motion
+from inputDevices import Motion
 
 # Setup for PIR sensor (output from sensor)
 pir = Motion(17)
