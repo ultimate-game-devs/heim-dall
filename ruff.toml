@@ -70,11 +70,11 @@ select = [
     "PLC0206",
     "PLE0100",
     "PLE0101",
-    "PLE1704",
-    "PLE1711",
+    "PLR1704",
+    "PLR1711",
     "PLW0127",
 ]
-ignore = []
+ignore = ["COM812"]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
@@ -82,9 +82,9 @@ unfixable = []
 
 [format]
 quote-style = "single"
-indent-style = "tabs"
+indent-style = "tab"
 skip-magic-trailing-comma = false
-line-ending = "auto"
+line-ending = "lf"
 
 # Enable auto-formatting of code examples in docstrings. Markdown,
 # reStructuredText code/literal blocks and doctests are all supported.
