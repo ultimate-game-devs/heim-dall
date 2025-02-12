@@ -1,5 +1,4 @@
 import os
-import random
 from time import sleep
 
 import paho.mqtt.client as mqtt
@@ -92,11 +91,3 @@ class MQTT:
 
 	def check_connection(self) -> bool:
 		return self.__client.is_connected()
-
-
-client1 = MQTT('192.168.111.111', str(random.randint(0, 9999)))
-client1.publish('Code/Testing', 'Ich habe es geschafft')
-client1.subscribe('Bash/ssh')
-
-while client1.check_connection():
-	sleep(0.1)

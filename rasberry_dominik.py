@@ -8,7 +8,7 @@ button = setUp.button(23)
 previous_state = button.get_data()
 last_change_time = time.time()
 
-mqtt_client = MQTT('10.174.207.237', "Dominik_PI")
+mqtt_client = MQTT('10.174.207.237', 'Dominik_PI')
 
 while mqtt_client.check_connection():
 	current_state = button.get_data()
