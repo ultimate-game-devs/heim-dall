@@ -25,7 +25,7 @@ while mqtt_client.check_connection():
 
 		print(f'{timestamp} - {state_str} (Δ {time_diff:.2f} seconds)')
 
-		mqtt_client.publish(button, state_str)
+		mqtt_client.publish("button", state_str)
 
 		last_change_time = current_time
 		previous_state = current_state
