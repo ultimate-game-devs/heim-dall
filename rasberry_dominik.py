@@ -1,9 +1,9 @@
 import time
 
-import setUp
+from inputDevices import Button
 from mqtt import MQTT
 
-button = setUp.button(23)
+button = Button(23)
 
 previous_state = button.get_data()
 last_change_time = time.time()
