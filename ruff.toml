@@ -74,7 +74,7 @@ select = [
     "PLR1711",
     "PLW0127",
 ]
-ignore = []
+ignore = ["COM812"]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
