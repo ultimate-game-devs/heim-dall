@@ -15,8 +15,6 @@ from Weather import (
 	Clouds,
 	Sys,
 	CurrentWeatherResponse,
-	ForecastList,
-	City,
 	ForecastWeatherResponse,
 )
 
@@ -106,80 +104,5 @@ curr_weather_response = CurrentWeatherResponse(
 fc_result = requests.post(
 	f'https://api.openweathermap.org/data/2.5/forecast?lat={geolocation.location.lat}&lon={geolocation.location.lng}&appid={weather_key}&units=metric&lang=de'
 ).json()
-
-fc_list = []
-for j in range(len(fc_result['list'])):
-	fc_main = Main(
-		fc_result['list'][j]['main']['temp'],
-		fc_result['list'][j]['main']['feels_like'],
-		fc_result['list'][j]['main']['temp_min'],
-		fc_result['list'][j]['main']['temp_max'],
-		fc_result['list'][j]['main']['pressure'],
-		fc_result['list'][j]['main']['humidity'],
-		fc_result['list'][j]['main']['sea_level'],
-		fc_result['list'][j]['main']['grnd_level'],
-	)
-
-	fc_weather = []
-	for i in range(len(fc_result['list'][j]['weather'])):
-		fc_weather.append(
-			Weather(
-				fc_result['list'][j]['weather'][i]['id'],
-				fc_result['list'][j]['weather'][i]['main'],
-				fc_result['list'][j]['weather'][i]['description'],
-				fc_result['list'][j]['weather'][i]['icon'],
-			)
-		)
-
-	fc_clouds = Clouds(fc_result['list'][j]['clouds']['all'])
-
-	if 'gust' in fc_result['list'][j]['wind']:
-		fc_wind = Wind(
-			fc_result['list'][j]['wind']['speed'],
-			fc_result['list'][j]['wind']['deg'],
-			fc_result['list'][j]['wind']['gust'],
-		)
-	else:
-		fc_wind = Wind(
-			fc_result['list'][j]['wind']['speed'], fc_result['list'][j]['wind']['deg']
-		)
-
-	fc_spezial_weather = None
-	if 'rain' in fc_result['list'][j]:
-		fc_spezial_weather = Rain(fc_result['list'][j]['rain']['1h'])
-	elif 'snow' in fc_result['list'][j]:
-		fc_spezial_weather = Snow(fc_result['list'][j]['snow']['1h'])
-
-	fc_list.append(
-		ForecastList(
-			fc_result['list'][j]['dt'],
-			fc_main,
-			fc_weather,
-			fc_clouds,
-			fc_wind,
-			fc_result['list'][j]['visibility'],
-			fc_result['list'][j]['pop'],
-			fc_result['list'][j]['sys'],
-			fc_result['list'][j]['dt_txt'],
-			fc_spezial_weather,
-		)
-	)
-
-fc_coord = Coord(fc_result['city']['coord']['lon'], fc_result['city']['coord']['lat'])
-
-fc_city = City(
-	fc_result['city']['id'],
-	fc_result['city']['name'],
-	fc_coord,
-	fc_result['city']['country'],
-	fc_result['city']['population'],
-	fc_result['city']['timezone'],
-	fc_result['city']['sunrise'],
-	fc_result['city']['sunset'],
-)
-
-fc_response = ForecastWeatherResponse(
-	fc_result['cod'], fc_result['message'], fc_result['cnt'], fc_list, fc_city
-)
-
+fc_response = ForecastWeatherResponse(fc_result)
 fc_response.print_forecast()
