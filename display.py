@@ -62,56 +62,35 @@ def lcd():
 	lcd.message = 'Hello\nCircuitPython'
 
 
-def getting_pixel():
-	# First, load the font and get the text size
-	text = "Hello"
-	font_path = "fonts/Roboto-Regular.ttf"
-	font_size = 16
-	font = ImageFont.truetype(font_path, font_size)
+def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list[tuple[int, int]]:
 	try:
-		text_width, text_height = font.getsize(text)
+		font = ImageFont.truetype(font_path, font_size)
+	except IOError:
+		raise IOError(f"Font file not found at path: {font_path}")
+
+	# Get an initial size (could be slightly too small)
+	try:
+		width, height = font.getsize(text)
 	except AttributeError:
 		bbox = font.getbbox(text)
-		text_width = bbox[2] - bbox[0]
-		text_height = bbox[3] - bbox[1]
+		width = bbox[2] - bbox[0]
+		height = bbox[3] - bbox[1]
 
-	# Compute offsets to center the text on a 128x32 display
-	display_width, display_height = 128, 32
-	offset_x = (display_width - text_width) // 2
-	offset_y = (display_height - text_height) // 2
+	# Create a slightly larger image
+	image = Image.new('L', (width, height + 4), color=0)  # 4 extra pixels in height
+	draw = ImageDraw.Draw(image)
+	draw.text((0, 0), text, fill=255, font=font)
 
-	def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list[tuple[int, int]]:
-		try:
-			font = ImageFont.truetype(font_path, font_size)
-		except IOError:
-			raise IOError(f"Font file not found at path: {font_path}")
+	# Crop to the bounding box of drawn text (optional)
+	cropped = image.crop(image.getbbox())
 
-		# Get an initial size (could be slightly too small)
-		try:
-			width, height = font.getsize(text)
-		except AttributeError:
-			bbox = font.getbbox(text)
-			width = bbox[2] - bbox[0]
-			height = bbox[3] - bbox[1]
+	cropped_width, cropped_height = cropped.size
+	coords = []
+	for y in range(cropped_height):
+		for x in range(cropped_width):
+			if cropped.getpixel((x, y)) > 128:
+				coords.append((x + offset[0], y + offset[1]))
+	return coords
 
-		# Create a slightly larger image
-		image = Image.new('L', (width, height + 4), color=0)  # 4 extra pixels in height
-		draw = ImageDraw.Draw(image)
-		draw.text((0, 0), text, fill=255, font=font)
-
-		# Crop to the bounding box of drawn text (optional)
-		cropped = image.crop(image.getbbox())
-
-		cropped_width, cropped_height = cropped.size
-		coords = []
-		for y in range(cropped_height):
-			for x in range(cropped_width):
-				if cropped.getpixel((x, y)) > 128:
-					coords.append((x + offset[0], y + offset[1]))
-		return coords
-
-	return text_to_pixel_coordinates("Hello", font_path, font_size, offset=(offset_x, offset_y))
-
-
-co = getting_pixel()
+co = text_to_pixel_coordinates("Hello", "fonts/Roboto-Regular.ttf", 32
 SSD1306(co)
