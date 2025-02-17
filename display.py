@@ -92,5 +92,5 @@ def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list
 				coords.append((x + offset[0], y + offset[1]))
 	return coords
 
-co = text_to_pixel_coordinates("Hello", "fonts/Roboto-Regular.ttf", 32
+co = text_to_pixel_coordinates("Hello", "fonts/Roboto-Regular.ttf", 32)
 SSD1306(co)
