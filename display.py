@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any
 
 import adafruit_character_lcd.character_lcd as character_lcd
 import adafruit_ssd1306
@@ -12,7 +12,7 @@ def ILI9341():
 	pass
 
 
-def SSD1306(coords: List[tuple[int]]):
+def SSD1306(coords: list[tuple[int | Any, int | Any]]):
 	i2c = busio.I2C(board.SCL, board.SDA)
 	display = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
 	# Alternatively you can change the I2C address of the device with an addr parameter:
@@ -63,7 +63,7 @@ def lcd():
 
 
 def getting_pixel():
-	def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> List[tuple[int]]:
+	def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list[tuple[int | Any, int | Any]]:
 		try:
 			# Load the font; make sure the path is correct
 			font = ImageFont.truetype(font_path, font_size)
