@@ -1,4 +1,4 @@
-from time import localtime, sleep
+from time import localtime
 
 from inputDevices import DHT22
 
@@ -12,5 +12,3 @@ while True:
         print(f'Temp - {dht_data["temperature"]}°C | Humid - {dht_data["humidity"]}%')
     else:
         raise 'Error: Temperature or Humidity None'
-
-    sleep(2)
