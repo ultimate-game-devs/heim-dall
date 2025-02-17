@@ -63,7 +63,7 @@ def lcd():
 
 
 def getting_pixel():
-	def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)):
+	def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> List[tuple[int]]:
 		try:
 			# Load the font; make sure the path is correct
 			font = ImageFont.truetype(font_path, font_size)
@@ -92,10 +92,8 @@ def getting_pixel():
 					coords.append((x + offset[0], y + offset[1]))
 		return coords
 
-	# Example usage:
-	coords = text_to_pixel_coordinates("Hello", "fonts/Roboto-Regular.ttf", 16)
-	print(coords)
+# Example usage:
+	return text_to_pixel_coordinates("Hello", "fonts/Roboto-Regular.ttf", 16)
 
-
-# SSD1306()
-getting_pixel()
+co = getting_pixel()
+SSD1306(co)
