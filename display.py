@@ -95,5 +95,5 @@ def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
-co = text_to_pixel_coordinates(hostname + '\n' + IPAddr, "fonts/Roboto-Regular.ttf", 16 )
+co = text_to_pixel_coordinates(hostname + '\n' + IPAddr, "fonts/Roboto-Regular.ttf", 10)
 SSD1306(co)
