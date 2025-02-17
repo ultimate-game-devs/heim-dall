@@ -117,7 +117,7 @@ class ForecastList:
 		sys: Literal['n', 'd'],
 		dt_txt: str,
 		spezial_weather: Rain | Snow | None = None,
-	):
+	) -> None:
 		self.dt = dt
 		self.main = main
 		self.weather = weather
@@ -154,10 +154,75 @@ class City:
 
 class ForecastWeatherResponse:
 	def __init__(
-		self, cod: str, message: int, cnt: int, forecastList: List[ForecastList], city: City
+		self,
+		cod: str,
+		message: int,
+		cnt: int,
+		forecast_list: List[ForecastList],
+		city: City,
 	) -> None:
 		self.cod = cod
 		self.message = message
 		self.cnt = cnt
-		self.forecastList = forecastList
+		self.forecast_list = forecast_list
 		self.city = city
+
+	def print_forecast(self) -> None:
+		print(
+			f"""
+		cod: {self.cod}	
+		message: {self.message}
+		cnt: {self.cnt}
+		forecastList: [
+			dt: {self.forecast_list[0].dt}
+			main: [
+				temp: {self.forecast_list[0].main.temp}
+				feels_like: {self.forecast_list[0].main.feels_like}
+				temp_min: {self.forecast_list[0].main.temp_min}
+				temp_max: {self.forecast_list[0].main.temp_max}
+				pressure: {self.forecast_list[0].main.pressure}
+				humidity: {self.forecast_list[0].main.humidity}
+				sea_level: {self.forecast_list[0].main.sea_level}
+				grnd_level: {self.forecast_list[0].main.grnd_level}
+			]
+			weather: [
+				id: {self.forecast_list[0].weather[0].weather_id}
+				main: {self.forecast_list[0].weather[0].main}
+				description: {self.forecast_list[0].weather[0].description}
+				icon: {self.forecast_list[0].weather[0].icon}
+			]
+			cloud: [
+				all: {self.forecast_list[0].clouds.cloudiness}
+			]
+			wind: [
+				speed: {self.forecast_list[0].wind.speed}
+				deg: {self.forecast_list[0].wind.deg}
+				gust: {self.forecast_list[0].wind.gust}
+			]
+			visibility: {self.forecast_list[0].visibility}
+			pop: {self.forecast_list[0].pop}
+			rain / snow: {
+				f'''[
+				1h: {self.forecast_list[0].spezial_weather.one_h}
+			]'''
+				if self.forecast_list[0].spezial_weather is not None
+				else 'None'
+			}
+		]
+        sys: {self.forecast_list[0].sys}
+        dt_text: {self.forecast_list[0].dt_text}
+		city: [
+			id: {self.city.city_id}
+			name: {self.city.name}
+			coord: [
+				lon: {self.city.coord.lon}
+				lat: {self.city.coord.lat}
+			]
+			country: {self.city.country}
+			population: {self.city.population}
+			timezone: {self.city.timezone}
+			sunrise: {self.city.sunrise}
+			sunset: {self.city.sunset}
+		]
+			"""
+		)
