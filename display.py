@@ -61,11 +61,21 @@ def lcd():
 
 def getting_pixel():
 	def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)):
-		# Load the font
-		font = ImageFont.truetype(font_path, font_size)
-		# Get text dimensions
-		width, height = font.getsize(text)
-		# Create an image (mode 'L' for grayscale)
+		try:
+			# Load the font; make sure the path is correct
+			font = ImageFont.truetype(font_path, font_size)
+		except IOError:
+			raise IOError(f"Font file not found at path: {font_path}")
+
+		# Try using getsize() first; if not available, use getbbox()
+		try:
+			width, height = font.getsize(text)
+		except AttributeError:
+			bbox = font.getbbox(text)
+			width = bbox[2] - bbox[0]
+			height = bbox[3] - bbox[1]
+
+		# Create an image (grayscale mode 'L')
 		image = Image.new('L', (width, height), color=0)
 		draw = ImageDraw.Draw(image)
 		# Draw text in white (pixel value 255)
