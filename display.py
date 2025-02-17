@@ -86,6 +86,7 @@ def getting_pixel():
 		except IOError:
 			raise IOError(f"Font file not found at path: {font_path}")
 
+		# Get an initial size (could be slightly too small)
 		try:
 			width, height = font.getsize(text)
 		except AttributeError:
@@ -93,14 +94,19 @@ def getting_pixel():
 			width = bbox[2] - bbox[0]
 			height = bbox[3] - bbox[1]
 
-		image = Image.new('L', (width, height), color=0)
+		# Create a slightly larger image
+		image = Image.new('L', (width, height + 4), color=0)  # 4 extra pixels in height
 		draw = ImageDraw.Draw(image)
 		draw.text((0, 0), text, fill=255, font=font)
 
+		# Crop to the bounding box of drawn text (optional)
+		cropped = image.crop(image.getbbox())
+
+		cropped_width, cropped_height = cropped.size
 		coords = []
-		for y in range(height):
-			for x in range(width):
-				if image.getpixel((x, y)) > 128:
+		for y in range(cropped_height):
+			for x in range(cropped_width):
+				if cropped.getpixel((x, y)) > 128:
 					coords.append((x + offset[0], y + offset[1]))
 		return coords
 
