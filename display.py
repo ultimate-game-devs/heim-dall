@@ -1,3 +1,4 @@
+import socket
 from typing import Any
 
 import adafruit_character_lcd.character_lcd as character_lcd
@@ -77,7 +78,7 @@ def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list
 		height = bbox[3] - bbox[1]
 
 	# Create a slightly larger image
-	image = Image.new('L', (width, height + 4), color=0)  # 4 extra pixels in height
+	image = Image.new('L', (width, height + 10), color=0)  # 4 extra pixels in height
 	draw = ImageDraw.Draw(image)
 	draw.text((0, 0), text, fill=255, font=font)
 
@@ -92,5 +93,7 @@ def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list
 				coords.append((x + offset[0], y + offset[1]))
 	return coords
 
-co = text_to_pixel_coordinates("Hello", "fonts/Roboto-Regular.ttf", 32)
+hostname = socket.gethostname()
+IPAddr = socket.gethostbyname(hostname)
+co = text_to_pixel_coordinates("IPAddr", "fonts/Roboto-Regular.ttf", 16)
 SSD1306(co)
