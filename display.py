@@ -63,14 +63,29 @@ def lcd():
 
 
 def getting_pixel():
-	def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list[tuple[int | Any, int | Any]]:
+	# First, load the font and get the text size
+	text = "Hello"
+	font_path = "fonts/Roboto-Regular.ttf"
+	font_size = 16
+	font = ImageFont.truetype(font_path, font_size)
+	try:
+		text_width, text_height = font.getsize(text)
+	except AttributeError:
+		bbox = font.getbbox(text)
+		text_width = bbox[2] - bbox[0]
+		text_height = bbox[3] - bbox[1]
+
+	# Compute offsets to center the text on a 128x32 display
+	display_width, display_height = 128, 32
+	offset_x = (display_width - text_width) // 2
+	offset_y = (display_height - text_height) // 2
+
+	def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list[tuple[int, int]]:
 		try:
-			# Load the font; make sure the path is correct
 			font = ImageFont.truetype(font_path, font_size)
 		except IOError:
 			raise IOError(f"Font file not found at path: {font_path}")
 
-		# Try using getsize() first; if not available, use getbbox()
 		try:
 			width, height = font.getsize(text)
 		except AttributeError:
@@ -78,22 +93,19 @@ def getting_pixel():
 			width = bbox[2] - bbox[0]
 			height = bbox[3] - bbox[1]
 
-		# Create an image (grayscale mode 'L')
 		image = Image.new('L', (width, height), color=0)
 		draw = ImageDraw.Draw(image)
-		# Draw text in white (pixel value 255)
 		draw.text((0, 0), text, fill=255, font=font)
 
-		# Extract coordinates for non-background pixels
 		coords = []
 		for y in range(height):
 			for x in range(width):
-				if image.getpixel((x, y)) > 128:  # adjust threshold as needed
+				if image.getpixel((x, y)) > 128:
 					coords.append((x + offset[0], y + offset[1]))
 		return coords
 
-# Example usage:
-	return text_to_pixel_coordinates("Hello", "fonts/Roboto-Regular.ttf", 16)
+	return text_to_pixel_coordinates("Hello", font_path, font_size, offset=(offset_x, offset_y))
+
 
 co = getting_pixel()
 SSD1306(co)
