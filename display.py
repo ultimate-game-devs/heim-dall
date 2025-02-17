@@ -3,6 +3,7 @@ import adafruit_ssd1306
 import board
 import busio
 import digitalio
+from PIL import Image, ImageDraw, ImageFont
 
 
 def ILI9341():
@@ -58,4 +59,30 @@ def lcd():
 	lcd.message = 'Hello\nCircuitPython'
 
 
-SSD1306()
+def getting_pixel():
+	def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)):
+		# Load the font
+		font = ImageFont.truetype(font_path, font_size)
+		# Get text dimensions
+		width, height = font.getsize(text)
+		# Create an image (mode 'L' for grayscale)
+		image = Image.new('L', (width, height), color=0)
+		draw = ImageDraw.Draw(image)
+		# Draw text in white (pixel value 255)
+		draw.text((0, 0), text, fill=255, font=font)
+
+		# Extract coordinates for non-background pixels
+		coords = []
+		for y in range(height):
+			for x in range(width):
+				if image.getpixel((x, y)) > 128:  # adjust threshold as needed
+					coords.append((x + offset[0], y + offset[1]))
+		return coords
+
+	# Example usage:
+	coords = text_to_pixel_coordinates("Hello", "fonts/Roboto-Regular.ttf", 16)
+	print(coords)
+
+
+# SSD1306()
+getting_pixel()
