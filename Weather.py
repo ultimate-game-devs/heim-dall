@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Literal
 
 
 class Coord:
@@ -70,7 +70,7 @@ class Sys:
 		self.sunset = sunset
 
 
-class CurrentWeatherRespond:
+class CurrentWeatherResponse:
 	def __init__(
 		self,
 		coord: Coord,
@@ -102,3 +102,62 @@ class CurrentWeatherRespond:
 		self.city_id = city_id
 		self.name = name
 		self.cod = cod
+
+
+class ForecastList:
+	def __init__(
+		self,
+		dt: int,
+		main: Main,
+		weather: List[Weather],
+		clouds: Clouds,
+		wind: Wind,
+		visibility: int,
+		pop: float,
+		sys: Literal['n', 'd'],
+		dt_txt: str,
+		spezial_weather: Rain | Snow | None = None,
+	):
+		self.dt = dt
+		self.main = main
+		self.weather = weather
+		self.clouds = clouds
+		self.wind = wind
+		self.visibility = visibility
+		self.pop = pop
+		self.spezial_weather = spezial_weather
+		self.sys = sys
+		self.dt_text = dt_txt
+
+
+class City:
+	def __init__(
+		self,
+		city_id: int,
+		name: str,
+		coord: Coord,
+		country: str,
+		population: int,
+		timezone: int,
+		sunrise: int,
+		sunset: int,
+	) -> None:
+		self.city_id = city_id
+		self.name = name
+		self.coord = coord
+		self.country = country
+		self.population = population
+		self.timezone = timezone
+		self.sunrise = sunrise
+		self.sunset = sunset
+
+
+class ForecastWeatherResponse:
+	def __init__(
+		self, cod: str, message: int, cnt: int, forecastList: List[ForecastList], city: City
+	) -> None:
+		self.cod = cod
+		self.message = message
+		self.cnt = cnt
+		self.forecastList = forecastList
+		self.city = city
