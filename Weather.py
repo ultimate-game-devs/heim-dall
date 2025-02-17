@@ -44,15 +44,10 @@ class Main:
         self.grnd_level = grnd_level
 
 class Wind:
-    def __init__(
-            self, 
-            speed:float, 
-            deg:int, 
-            gust:float
-        ) -> None:
-        self.speed = speed
-        self.deg = deg
-        self.gust = gust
+	def __init__(self, speed: float, deg: int, gust: float | None = None) -> None:
+		self.speed = speed
+		self.deg = deg
+		self.gust = gust
 
 class Rain:
     def __init__(
@@ -92,35 +87,34 @@ class Sys:
         self.sunset = sunset
 
 class CurrentWeatherRespond:
-    def __init__(
-            self, 
-            coord:Coord, 
-            weather:List[Weather], 
-            base:str, main:Main, 
-            visibility:int, 
-            wind:Wind, 
-            rain:Rain, 
-            snow:Snow, 
-            clouds:Clouds,
-            dt: int, 
-            sys:Sys, 
-            timezone:int, 
-            city_id:int, 
-            name:str, 
-            cod:int
-        ) -> None:
-        self.coord = coord
-        self.weather = weather 
-        self.base = base
-        self.main = main
-        self.visibility = visibility
-        self.wind = wind
-        self.rain = rain
-        self.snow = snow
-        self.clouds = clouds
-        self.dt = dt
-        self.sys = sys
-        self.timezone = timezone
-        self.city_id = city_id
-        self.name = name
-        self.cod = cod
+	def __init__(
+		self,
+		coord: Coord,
+		weather: List[Weather],
+		base: str,
+		main: Main,
+		visibility: int,
+		wind: Wind,
+		clouds: Clouds,
+		dt: int,
+		sys: Sys,
+		timezone: int,
+		city_id: int,
+		name: str,
+		cod: int,
+		spezial_weather: Rain | Snow | None = None,
+	) -> None:
+		self.coord = coord
+		self.weather = weather
+		self.base = base
+		self.main = main
+		self.visibility = visibility
+		self.wind = wind
+		self.spezialWeather = spezial_weather
+		self.clouds = clouds
+		self.dt = dt
+		self.sys = sys
+		self.timezone = timezone
+		self.city_id = city_id
+		self.name = name
+		self.cod = cod
