@@ -1,3 +1,5 @@
+from typing import List
+
 import adafruit_character_lcd.character_lcd as character_lcd
 import adafruit_ssd1306
 import board
@@ -10,7 +12,7 @@ def ILI9341():
 	pass
 
 
-def SSD1306():
+def SSD1306(coords: List[tuple[int]]):
 	i2c = busio.I2C(board.SCL, board.SDA)
 	display = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
 	# Alternatively you can change the I2C address of the device with an addr parameter:
@@ -24,13 +26,14 @@ def SSD1306():
 
 	# Set a pixel in the origin 0,0 position.
 	# display.pixel(0, 0, 1)
-	display.pixel("Zeile 1", 0, 0, 1)
-	display.pixel("Zeile 2", 0, 10, 1)
-	display.pixel("Zeile 3", 0, 20, 1)
 	# Set a pixel in the middle 64, 16 position.
 	# display.pixel(64, 16, 1)
 	# # Set a pixel in the opposite 127, 31 position.
 	# display.pixel(127, 31, 1)
+
+	for i in range(len(coords)):
+		display.pixel(coords[i][0], coords[i][1], 1)
+
 	display.show()
 
 
