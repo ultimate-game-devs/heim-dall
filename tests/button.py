@@ -18,7 +18,7 @@ while True:
 
 		state_str = 'Button Pressed'
 		if current_state:
-			'Button no longer pressed'
+			state_str = 'Button no longer pressed'
 
 		print(f'{timestamp} - {state_str} (Δ {time_diff:.2f} seconds)')
 
