@@ -10,4 +10,4 @@ while True:
     if dht_data['temperature'] is not None and dht_data['humidity'] is not None:
         print(f'Temp - {dht_data["temperature"]}°C | Humid - {dht_data["humidity"]}%')
     else:
-        raise 'Error: Temperature or Huminity None'
+        raise 'Error: Temperature or Humidity None'
