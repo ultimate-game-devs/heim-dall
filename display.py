@@ -1,44 +1,32 @@
 import socket
 
-import adafruit_character_lcd.character_lcd as character_lcd
-import board
-import digitalio
-
-from outputDevices import SSD1306
+import psutil
 
 
-def ili9341() -> None:
-	pass
+# from outputDevices import SSD1306
+
+# display = SSD1306()
+#
+# hostname = socket.gethostname()
+# IPAddr = socket.gethostbyname(hostname)
+#
+# display.printOnDisplay(IPAddr)
 
 
-def lcd() -> None:
-	lcd_rs = digitalio.DigitalInOut(board.D26)
-	lcd_en = digitalio.DigitalInOut(board.D19)
-	lcd_d7 = digitalio.DigitalInOut(board.D27)
-	lcd_d6 = digitalio.DigitalInOut(board.D22)
-	lcd_d5 = digitalio.DigitalInOut(board.D24)
-	lcd_d4 = digitalio.DigitalInOut(board.D25)
+def print_active_interfaces():
+	stats = psutil.net_if_stats()
+	addresses = psutil.net_if_addrs()
 
-	lcd_columns = 16
-	lcd_rows = 2
-
-	lcd = character_lcd.Character_LCD_Mono(
-		lcd_rs,
-		lcd_en,
-		lcd_d4,
-		lcd_d5,
-		lcd_d6,
-		lcd_d7,
-		lcd_columns,
-		lcd_rows,
-	)
-
-	lcd.message = 'Hello\nCircuitPython'
+	for iface, stat in stats.items():
+		if stat.isup:
+			print(f"Interface: {iface}")
+	for snic in addresses.get(iface, []):
+		if snic.family == socket.AF_INET:
+			print(f"  IPv4: {snic.address}")
+		elif snic.family == socket.AF_INET6:
+			print(f"  IPv6: {snic.address}")
+	print()
 
 
-display = SSD1306()
-
-hostname = socket.gethostname()
-IPAddr = socket.gethostbyname(hostname)
-
-display.printOnDisplay(IPAddr)
+if __name__ == "__main__":
+	print_active_interfaces()

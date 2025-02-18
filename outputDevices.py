@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import List
 
+import adafruit_character_lcd.character_lcd as character_lcd
+import board
+import digitalio
 from PIL import Image, ImageDraw, ImageFont
 
 import setup
@@ -75,6 +78,7 @@ class SSD1306(OutputDevice):
 					pixel.append((x, y))
 		return pixel
 
+
 # def get_data(self) -> dht_data:
 # 	return {'temperature': self.__get_temp(), 'humidity': self.__get_humid()}
 #
@@ -91,3 +95,43 @@ class SSD1306(OutputDevice):
 # 	except Exception as error:
 # 		print(error)
 # 		return None
+
+
+class ILI9341(OutputDevice):
+	def __init__(self, pin_number: int) -> None:
+		pass
+
+	def __exit__(self) -> None:
+		pass
+
+
+class LCD(OutputDevice):
+	def __init__(self, pin_number: int) -> None:
+		# TODO: Put setup into setup.py
+		lcd_rs = digitalio.DigitalInOut(board.D26)
+		lcd_en = digitalio.DigitalInOut(board.D19)
+		lcd_d7 = digitalio.DigitalInOut(board.D27)
+		lcd_d6 = digitalio.DigitalInOut(board.D22)
+		lcd_d5 = digitalio.DigitalInOut(board.D24)
+		lcd_d4 = digitalio.DigitalInOut(board.D25)
+
+		lcd_columns = 16
+		lcd_rows = 2
+
+		lcd = character_lcd.Character_LCD_Mono(
+			lcd_rs,
+			lcd_en,
+			lcd_d4,
+			lcd_d5,
+			lcd_d6,
+			lcd_d7,
+			lcd_columns,
+			lcd_rows,
+		)
+
+		# TODO: Put write into its own message
+		lcd.message = 'Hello\nCircuitPython'
+		pass
+
+	def __exit__(self) -> None:
+		pass
