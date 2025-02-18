@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import TypedDict
 
-import setUp
+import helper.setup as setup
 
 dht_data = TypedDict(
 	'dht_data', {'temperature': float | None, 'humidity': float | None}
@@ -24,7 +24,32 @@ class InputDevice(ABC):
 
 class DHT11(InputDevice):
 	def __init__(self, pin_number: int) -> None:
-		self.sensor = setUp.dht11(pin_number)
+		self.sensor = setup.dht11(pin_number)
+
+	def __exit__(self) -> None:
+		self.sensor.exit()
+
+	def get_data(self) -> dht_data:
+		return {'temperature': self.__get_temp(), 'humidity': self.__get_humid()}
+
+	def __get_temp(self) -> float | None:
+		try:
+			return self.sensor.temperature
+		except Exception as error:
+			print(error)
+			return None
+
+	def __get_humid(self) -> float | None:
+		try:
+			return self.sensor.humidity
+		except Exception as error:
+			print(error)
+			return None
+
+
+class DHT22(InputDevice):
+	def __init__(self, pin_number: int) -> None:
+		self.sensor = setup.dht22(pin_number)
 
 	def __exit__(self) -> None:
 		self.sensor.exit()
@@ -49,7 +74,7 @@ class DHT11(InputDevice):
 
 class Motion(InputDevice):
 	def __init__(self, pin_number: int) -> None:
-		self.sensor = setUp.motion(pin_number)
+		self.sensor = setup.motion(pin_number)
 
 	def __exit__(self) -> None:
 		self.sensor.deinit()
@@ -60,7 +85,7 @@ class Motion(InputDevice):
 
 class Button(InputDevice):
 	def __init__(self, pin_number: int) -> None:
-		self.button = setUp.button(pin_number)
+		self.button = setup.button(pin_number)
 
 	def __exit__(self) -> None:
 		self.button.deinit()
