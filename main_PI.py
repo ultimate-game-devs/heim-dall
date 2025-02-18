@@ -15,6 +15,7 @@ while True:
 		continue
 
 	text: str = ''
+	oldText: str = ''
 	show_temp = True
 
 	while movement:
@@ -29,7 +30,12 @@ while True:
 		else:
 			text = str(temp_humid['humidity']) + '%'
 
-		display.print_on_display(text)
+		if text != oldText:
+			display.print_on_display(text)
+
 		movement = motion.get_data()
 		sleep(3)
+		oldText = text
 	display.clear_display()
+
+# Sollte einen Vergleich einbauen mit dem schon angezeigtem Text - damit das Display nicht die ganze Zeit denselben String neu schreibt
