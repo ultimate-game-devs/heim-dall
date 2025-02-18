@@ -31,18 +31,17 @@ class SSD1306(OutputDevice):
 		self.display = setup.ssd1306(self.max_width, self.max_height)
 
 	def __exit__(self) -> None:
-		self.resetDisplay()
+		self.__reset_display()
 
-	def resetDisplay(self) -> None:
-		self.display.fill(0)
-		self.display.show()
-
-	def printOnDisplay(self, text: str):
-		self.resetDisplay()
+	def print_on_display(self, text: str) -> None:
+		self.__reset_display()
 		cords = self.__text_to_pixel_coordinates(text)
-		# self.display.pixel(64, 16, 1)
 		for i in range(len(cords)):
 			self.display.pixel(cords[i][0], cords[i][1], 1)
+		self.display.show()
+
+	def __reset_display(self) -> None:
+		self.display.fill(0)
 		self.display.show()
 
 	def __text_to_pixel_coordinates(self, text: str) -> List[tuple[int, int]]:
