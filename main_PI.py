@@ -30,7 +30,9 @@ while True:
 				case 'humidity':
 					show = 'clock'
 				case 'clock':
-					show = 'temp'
+					show = 'temperature'
+				case _:
+					show = 'temperature'
 
 		match show:
 			case 'temperature':
