@@ -14,12 +14,12 @@ while True:
 	if not movement:
 		continue
 
+	text: str = ''
+	show_temp = True
+
 	while movement:
 		pressed = button.get_data()
-
-		text: str = ''
 		temp_humid = dht.get_data()
-		show_temp = True
 
 		if not pressed:
 			show_temp = not show_temp
@@ -32,3 +32,4 @@ while True:
 		display.print_on_display(text)
 		movement = motion.get_data()
 		sleep(3)
+	display.clear_display()
