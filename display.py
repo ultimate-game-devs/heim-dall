@@ -17,4 +17,8 @@ for iface, stat in stats.items():
 			if snic.family == socket.AF_INET:
 				text = snic.address
 
+newText = input()
+if not newText == '\n' or not newText == '' or not newText == ' ':
+	text = newText
+	
 display.print_on_display(text)
