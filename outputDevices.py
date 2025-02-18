@@ -67,8 +67,8 @@ class SSD1306(OutputDevice):
 		image_width, image_height = image.size
 
 		pixel = []
-		for y in range(image_height):
-			for x in range(image_width):
+		for y in range(image_height - 1):
+			for x in range(image_width - 1):
 				value = image.getpixel((x, y))
 				if value > 50:
 					pixel.append((x, y))
