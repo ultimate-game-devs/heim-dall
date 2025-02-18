@@ -34,7 +34,7 @@ while True:
 			display.print_on_display(text)
 
 		movement = motion.get_data()
-		sleep(3)
+		sleep(1)
 		oldText = text
 	display.clear_display()
 
