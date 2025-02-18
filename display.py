@@ -8,12 +8,15 @@ import busio
 import digitalio
 from PIL import Image, ImageDraw, ImageFont
 
+FONT_PATH = 'fonts/Roboto-Regular.ttf'
+FONT_SIZE = 20
 
-def ILI9341():
+
+def ili9341() -> None:
 	pass
 
 
-def SSD1306(coords: list[tuple[int | Any, int | Any]]):
+def ssd1306(cords: list[tuple[int | Any, int | Any]]) -> None:
 	i2c = busio.I2C(board.SCL, board.SDA)
 	display = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
 	# Alternatively you can change the I2C address of the device with an addr parameter:
@@ -32,13 +35,13 @@ def SSD1306(coords: list[tuple[int | Any, int | Any]]):
 	# # Set a pixel in the opposite 127, 31 position.
 	# display.pixel(127, 31, 1)
 
-	for i in range(len(coords)):
-		display.pixel(coords[i][0], coords[i][1], 1)
+	for i in range(len(cords)):
+		display.pixel(cords[i][0], cords[i][1], 1)
 
 	display.show()
 
 
-def lcd():
+def lcd() -> None:
 	lcd_rs = digitalio.DigitalInOut(board.D26)
 	lcd_en = digitalio.DigitalInOut(board.D19)
 	lcd_d7 = digitalio.DigitalInOut(board.D27)
@@ -63,37 +66,31 @@ def lcd():
 	lcd.message = 'Hello\nCircuitPython'
 
 
-def text_to_pixel_coordinates(text, font_path, font_size, offset=(0, 0)) -> list[tuple[int, int]]:
+def text_to_pixel_coordinates(
+	text: str, offset: tuple[int, int] = (0, 0)
+) -> list[tuple[int, int]]:
 	try:
-		font = ImageFont.truetype(font_path, font_size)
+		font = ImageFont.truetype(FONT_PATH, FONT_SIZE)
 	except IOError:
-		raise IOError(f"Font file not found at path: {font_path}")
+		raise IOError(f'Font file not found at path: {FONT_PATH}')
 
-	# Get an initial size (could be slightly too small)
-	try:
-		width, height = font.getsize(text)
-	except AttributeError:
-		bbox = font.getbbox(text)
-		width = bbox[2] - bbox[0]
-		height = bbox[3] - bbox[1]
+	bbox = font.getbbox(text)
+	width = int(round(bbox[2] - bbox[0], 0))
+	height = int(round(bbox[3] - bbox[1], 0))
 
-	# Create a slightly larger image
-	image = Image.new('L', (width, height + 10), color=0)  # 4 extra pixels in height
+	image = Image.new('L', (width, height))
 	draw = ImageDraw.Draw(image)
 	draw.text((0, 0), text, fill=255, font=font)
 
-	# Crop to the bounding box of drawn text (optional)
-	cropped = image.crop(image.getbbox())
+	cords = []
+	for y in range(height):
+		for x in range(width):
+			if x > 128:
+				cords.append((x + offset[0], y + offset[1]))
+	return cords
 
-	cropped_width, cropped_height = cropped.size
-	coords = []
-	for y in range(cropped_height):
-		for x in range(cropped_width):
-			if cropped.getpixel((x, y)) > 128:
-				coords.append((x + offset[0], y + offset[1]))
-	return coords
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
-co = text_to_pixel_coordinates(hostname + '\n' + IPAddr, "fonts/Roboto-Regular.ttf", 10)
-SSD1306(co)
+co = text_to_pixel_coordinates(IPAddr)
+ssd1306(co)
