@@ -31,6 +31,6 @@ def button(pin_number: int) -> digitalio.DigitalInOut:
 
 
 def ssd1306(width, height):
-	display = adafruit_ssd1306.SSD1306_I2C(width, height, busio.I2C(board.scl, board.sda))
+	display = adafruit_ssd1306.SSD1306_I2C(width, height, busio.I2C(board.SCL, board.SDA))
 	print(type(display))
 	return display
