@@ -40,7 +40,7 @@ class SSD1306(OutputDevice):
 		font_height = 1000
 		font_width = 1000
 		font_size = 1000
-		font_path = '../fonts/Roboto-Regular.ttf'
+		font_path = 'fonts/Roboto-Regular.ttf'
 
 		while font_width > self.max_width or font_height > self.max_height:
 			try:
@@ -81,15 +81,15 @@ class SSD1306(OutputDevice):
 
 class LCD(OutputDevice):
 	def __init__(
-			self,
-			rs: int,
-			en: int,
-			seven: int,
-			six: int,
-			five: int,
-			four: int,
-			columns: int,
-			rows: int,
+		self,
+		rs: int,
+		en: int,
+		seven: int,
+		six: int,
+		five: int,
+		four: int,
+		columns: int,
+		rows: int,
 	) -> None:
 		self.display = setup.lcd(rs, en, seven, six, five, four, columns, rows)
 
@@ -97,5 +97,5 @@ class LCD(OutputDevice):
 		self.display.clear()
 		pass
 
-	def writeToDisplay(self, text: str):
+	def print_on_display(self, text: str) -> None:
 		self.display.message = text
