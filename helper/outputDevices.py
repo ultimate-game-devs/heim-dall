@@ -80,7 +80,17 @@ class SSD1306(OutputDevice):
 
 
 class LCD(OutputDevice):
-	def __init__(self, rs: int, en: int, seven: int, six: int, five: int, four: int, columns: int, rows: int) -> None:
+	def __init__(
+		self,
+		rs: int,
+		en: int,
+		seven: int,
+		six: int,
+		five: int,
+		four: int,
+		columns: int,
+		rows: int,
+	) -> None:
 		self.display = setup.lcd(rs, en, seven, six, five, four, columns, rows)
 
 	def __exit__(self) -> None:

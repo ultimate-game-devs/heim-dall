@@ -38,8 +38,16 @@ def ssd1306(width: int, height: int) -> adafruit_ssd1306.SSD1306_I2C:
 	)
 
 
-def lcd(rs_pin: int, en_pin: int, d7_pin: int, d6_pin: int, d5_pin: int, d4_pin: int, columns: int,
-        rows: int) -> adafruit_character_lcd.character_lcd:
+def lcd(
+	rs_pin: int,
+	en_pin: int,
+	d7_pin: int,
+	d6_pin: int,
+	d5_pin: int,
+	d4_pin: int,
+	columns: int,
+	rows: int,
+) -> character_lcd:
 	lcd_rs = digitalio.DigitalInOut(getattr(board, f'D{rs_pin}'))  # 26
 	lcd_en = digitalio.DigitalInOut(getattr(board, f'D{en_pin}'))  # 19
 	lcd_d7 = digitalio.DigitalInOut(getattr(board, f'D{d7_pin}'))  # 27

@@ -1,6 +1,6 @@
 import time
 
-from helper.inputDevices import Button
+from .inputDevices import Button
 
 button = Button(23)
 
