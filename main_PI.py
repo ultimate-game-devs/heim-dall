@@ -37,5 +37,3 @@ while True:
 		oldText = text
 		sleep(0.2)
 	display.clear_display()
-
-# Sollte einen Vergleich einbauen mit dem schon angezeigtem Text - damit das Display nicht die ganze Zeit denselben String neu schreibt
