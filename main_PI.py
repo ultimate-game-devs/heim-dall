@@ -1,3 +1,4 @@
+import time
 from time import sleep
 
 from helper.inputDevices import DHT22, Motion, Button
@@ -11,7 +12,7 @@ button = Button(23)
 
 text: str = ''
 oldText: str = ''
-show_temp = True
+show: str = 'temperature'
 
 while True:
 	movement = motion.get_data()
@@ -23,12 +24,22 @@ while True:
 		temp_humid = dht.get_data()
 
 		if not pressed:
-			show_temp = not show_temp
+			match show:
+				case 'temperature':
+					show = 'humidity'
+				case 'humidity':
+					show = 'clock'
+				case 'clock':
+					show = 'temp'
 
-		if show_temp:
-			text = str(temp_humid['temperature']) + '°C'
-		else:
-			text = str(temp_humid['humidity']) + '%'
+		match show:
+			case 'temperature':
+				text = str(temp_humid['temperature']) + '°C'
+			case 'humidity':
+				text = str(temp_humid['humidity']) + '%'
+			case 'clock':
+				now = time.localtime()
+				text = f"{now.tm_hour}:{now.tm_min}:{now.tm_sec}"
 
 		if text != oldText:
 			display.print_on_display(text)
