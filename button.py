@@ -1,16 +1,14 @@
 import time
-import board
-import digitalio
 
-button = digitalio.DigitalInOut(board.D23)
-button.direction = digitalio.Direction.INPUT
-button.pull = digitalio.Pull.UP
+from helper.inputDevices import Button
 
-previous_state = button.value
+button = Button(23)
+
+previous_state = button.get_data()
 last_change_time = time.time()
 
 while True:
-	current_state = button.value
+	current_state = button.get_data()
 	current_time = time.time()
 
 	time_diff = current_time - last_change_time

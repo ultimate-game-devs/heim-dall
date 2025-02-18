@@ -1,18 +1,16 @@
 import time
 
-import board
-import digitalio
+from helper.inputDevices import Motion
 
 # Setup for PIR sensor (output from sensor)
-pir = digitalio.DigitalInOut(board.D17)
-pir.direction = digitalio.Direction.INPUT
+pir = Motion(17)
 
 previous_state = None
 last_change_time = time.time()
 
 while True:
 	# Read current sensor state: True indicates motion, False indicates no motion  # noqa: ERA001, E501
-	current_state = pir.value
+	current_state = pir.get_data()
 	current_time = time.time()
 
 	# Calculate time difference since the last state change
