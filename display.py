@@ -82,7 +82,7 @@ def text_to_pixel_coordinates(text: str) -> list[tuple[int, int]]:
 		if font_width > 127 or font_height > 31:
 			font_size -= 1
 
-	image = Image.new('L', (127, 31))
+	image = Image.new('L', (128, 32))
 	draw = ImageDraw.Draw(image)
 	draw.text((0, 0), text, fill=255, font=font)
 
