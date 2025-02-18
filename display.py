@@ -67,36 +67,41 @@ def text_to_pixel_coordinates(text: str) -> List[tuple[int, int]]:
 	font_height = 1000
 	font_width = 1000
 	font_path = 'fonts/Roboto-Regular.ttf'
-	font_size = 20
+	font_size = 1000
+	max_width = 127
+	max_height = 31
 
-	while font_width > 128 or font_height > 32:
+	while font_width > max_width or font_height > max_height:
 		try:
 			font = ImageFont.truetype(font_path, font_size)
 		except IOError:
 			raise IOError(f'Font file not found at path: {font_path}')
 
 		bbox = font.getbbox(text)
-		font_width = bbox[2] - bbox[0]
-		font_height = bbox[3] - bbox[1]
-		if font_width > 127 or font_height > 31:
+		font_width = bbox[2]
+		font_height = bbox[3]
+
+		if font_width > max_width or font_height > max_height:
 			font_size -= 1
 
-	image = Image.new('L', (128, 32))
+	image = Image.new('L', (max_width, max_height))
 	draw = ImageDraw.Draw(image)
 	draw.text((0, 0), text, fill=255, font=font)
 
 	image_width, image_height = image.size
 
+	image.show()
+
 	pixel = []
 	for y in range(image_height):
 		for x in range(image_width):
 			value = image.getpixel((x, y))
-			if value > 0:
+			if value > 50:
 				pixel.append((x, y))
 	return pixel
 
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
-co = text_to_pixel_coordinates(IPAddr)
-ssd1306(co)
+co = text_to_pixel_coordinates("IPAddr")
+# ssd1306(co)
