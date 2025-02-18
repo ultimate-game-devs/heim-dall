@@ -18,9 +18,9 @@ class OutputDevice(ABC):
 
 class SSD1306(OutputDevice):
 	def __init__(self) -> None:
-		self.max_width = 127
-		self.max_height = 31
-		self.display = setup.ssd1306(self.max_width, self.max_height)
+		self.__max_width = 127
+		self.__max_height = 31
+		self.__display = setup.ssd1306(self.__max_width, self.__max_height)
 
 	def __exit__(self) -> None:
 		self.__reset_display()
@@ -29,12 +29,12 @@ class SSD1306(OutputDevice):
 		self.__reset_display()
 		cords = self.__text_to_pixel_coordinates(text)
 		for i in range(len(cords)):
-			self.display.pixel(cords[i][0], cords[i][1], 1)
-		self.display.show()
+			self.__display.pixel(cords[i][0], cords[i][1], 1)
+		self.__display.show()
 
 	def __reset_display(self) -> None:
-		self.display.fill(0)
-		self.display.show()
+		self.__display.fill(0)
+		self.__display.show()
 
 	def __text_to_pixel_coordinates(self, text: str) -> List[tuple[int, int]]:
 		font_height = 1000
@@ -42,7 +42,7 @@ class SSD1306(OutputDevice):
 		font_size = 1000
 		font_path = 'fonts/Roboto-Regular.ttf'
 
-		while font_width > self.max_width or font_height > self.max_height:
+		while font_width > self.__max_width or font_height > self.__max_height:
 			try:
 				font = ImageFont.truetype(font_path, font_size)
 			except IOError:
@@ -52,10 +52,10 @@ class SSD1306(OutputDevice):
 			font_width = bbox[2]
 			font_height = bbox[3]
 
-			if font_width > self.max_width or font_height > self.max_height:
+			if font_width > self.__max_width or font_height > self.__max_height:
 				font_size -= 1
 
-		image = Image.new('L', (self.max_width, self.max_height))
+		image = Image.new('L', (self.__max_width, self.__max_height))
 		draw = ImageDraw.Draw(image)
 		draw.text((0, 0), text, fill=255, font=font)
 
@@ -81,21 +81,21 @@ class SSD1306(OutputDevice):
 
 class LCD(OutputDevice):
 	def __init__(
-		self,
-		rs: int,
-		en: int,
-		seven: int,
-		six: int,
-		five: int,
-		four: int,
-		columns: int,
-		rows: int,
+			self,
+			rs: int,
+			en: int,
+			seven: int,
+			six: int,
+			five: int,
+			four: int,
+			columns: int,
+			rows: int,
 	) -> None:
-		self.display = setup.lcd(rs, en, seven, six, five, four, columns, rows)
+		self.__display = setup.lcd(rs, en, seven, six, five, four, columns, rows)
 
 	def __exit__(self) -> None:
-		self.display.clear()
+		self.__display.clear()
 		pass
 
 	def print_on_display(self, text: str) -> None:
-		self.display.message = text
+		self.__display.message = text
