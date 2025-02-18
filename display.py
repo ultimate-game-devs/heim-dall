@@ -1,5 +1,5 @@
 import socket
-from typing import Any
+from typing import List
 
 import adafruit_character_lcd.character_lcd as character_lcd
 import adafruit_ssd1306
@@ -13,7 +13,7 @@ def ili9341() -> None:
 	pass
 
 
-def ssd1306(cords: list[tuple[int | Any, int | Any]]) -> None:
+def ssd1306(pixel: List[tuple[int, int]]) -> None:
 	i2c = busio.I2C(board.SCL, board.SDA)
 	display = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
 	# Alternatively you can change the I2C address of the device with an addr parameter:
@@ -25,15 +25,15 @@ def ssd1306(cords: list[tuple[int | Any, int | Any]]) -> None:
 
 	display.show()
 
-	for i in range(len(cords)):
-		display.pixel(cords[i][0], cords[i][1], 1)
+	for i in range(len(pixel)):
+		display.pixel(pixel[i][0], pixel[i][1], pixel[i][2])
 
 	# Set a pixel in the origin 0,0 position.
-	display.pixel(0, 0, 1)
+	# display.pixel(0, 0, 1)
 	# Set a pixel in the middle 64, 16 position.
 	# display.pixel(64, 16, 1)
 	# # Set a pixel in the opposite 127, 31 position.
-	display.pixel(127, 31, 0)
+	# display.pixel(127, 31, 0)
 
 	display.show()
 
@@ -63,13 +63,13 @@ def lcd() -> None:
 	lcd.message = 'Hello\nCircuitPython'
 
 
-def text_to_pixel_coordinates(text: str) -> list[tuple[int, int]]:
+def text_to_pixel_coordinates(text: str) -> List[tuple[int, int]]:
 	font_height = 1000
 	font_width = 1000
 	font_path = 'fonts/Roboto-Regular.ttf'
 	font_size = 20
 
-	while font_width > 127 or font_height > 31:
+	while font_width > 128 or font_height > 32:
 		try:
 			font = ImageFont.truetype(font_path, font_size)
 		except IOError:
@@ -78,7 +78,6 @@ def text_to_pixel_coordinates(text: str) -> list[tuple[int, int]]:
 		bbox = font.getbbox(text)
 		font_width = bbox[2] - bbox[0]
 		font_height = bbox[3] - bbox[1]
-		print(font_width, font_height)
 		if font_width > 127 or font_height > 31:
 			font_size -= 1
 
@@ -88,16 +87,16 @@ def text_to_pixel_coordinates(text: str) -> list[tuple[int, int]]:
 
 	image_width, image_height = image.size
 
-	cords = []
+	pixel = []
 	for y in range(image_height):
 		for x in range(image_width):
-			if x < 128:
-				print((x, y))
-				cords.append((x, y))
-	return cords
+			value = image.getpixel((x, y))
+			if value > 0:
+				pixel.append((x, y))
+	return pixel
 
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
-co = text_to_pixel_coordinates("IPAddr")
+co = text_to_pixel_coordinates(IPAddr)
 ssd1306(co)
