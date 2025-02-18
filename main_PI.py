@@ -1,3 +1,5 @@
+from time import sleep
+
 from helper.inputDevices import DHT22, Motion, Button
 from helper.outputDevices import SSD1306
 
@@ -33,6 +35,7 @@ while True:
 
 		movement = motion.get_data()
 		oldText = text
+		sleep(0.2)
 	display.clear_display()
 
 # Sollte einen Vergleich einbauen mit dem schon angezeigtem Text - damit das Display nicht die ganze Zeit denselben String neu schreibt
