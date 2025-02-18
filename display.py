@@ -102,4 +102,4 @@ def text_to_pixel_coordinates(text: str) -> List[tuple[int, int]]:
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
 co = text_to_pixel_coordinates("IPAddr")
-# ssd1306(co)
+ssd1306(co)
