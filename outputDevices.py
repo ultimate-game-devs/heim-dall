@@ -37,8 +37,9 @@ class SSD1306(OutputDevice):
 	def printOnDisplay(self, text: str):
 		self.resetDisplay()
 		cords = self.__text_to_pixel_coordinates(text)
-		for i in range(len(cords) - 1):
-			self.display.pixel(cords[i][0], cords[i][1], 1)
+		self.display.pixel(64, 16, 1)
+		# for i in range(len(cords)):
+		# 	self.display.pixel(cords[i][0], cords[i][1], 1)
 		self.display.show()
 
 	def __text_to_pixel_coordinates(self, text: str) -> List[tuple[int, int]]:
