@@ -90,8 +90,6 @@ def text_to_pixel_coordinates(text: str) -> List[tuple[int, int]]:
 
 	image_width, image_height = image.size
 
-	image.show()
-
 	pixel = []
 	for y in range(image_height):
 		for x in range(image_width):
