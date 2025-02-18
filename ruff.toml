@@ -84,7 +84,7 @@ unfixable = []
 quote-style = "single"
 indent-style = "tab"
 skip-magic-trailing-comma = false
-line-ending = "lf"
+line-ending = "auto"
 
 # Enable auto-formatting of code examples in docstrings. Markdown,
 # reStructuredText code/literal blocks and doctests are all supported.
