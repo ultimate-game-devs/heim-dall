@@ -23,8 +23,8 @@ class OutputDevice(ABC):
 
 class SSD1306(OutputDevice):
 	def __init__(self) -> None:
-		self.max_width = 128
-		self.max_height = 32
+		self.max_width = 127
+		self.max_height = 31
 		self.display = setup.ssd1306(self.max_width, self.max_height)
 
 	def __exit__(self) -> None:
