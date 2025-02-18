@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-import adafruit_character_lcd.character_lcd as character_lcd
-import board
-import digitalio
 from PIL import Image, ImageDraw, ImageFont
 
 import setup
@@ -17,11 +14,6 @@ class OutputDevice(ABC):
 	@abstractmethod
 	def __exit__(self) -> None:
 		pass
-
-
-# @abstractmethod
-# def get_data(self) -> None:
-#     pass
 
 
 class SSD1306(OutputDevice):
@@ -78,59 +70,22 @@ class SSD1306(OutputDevice):
 		return pixel
 
 
-# def get_data(self) -> dht_data:
-# 	return {'temperature': self.__get_temp(), 'humidity': self.__get_humid()}
+# Idk, how to set it up | but we physically have one
+# class ILI9341(OutputDevice):
+# 	def __init__(self, pin_number: int) -> None:
+# 		pass
 #
-# def __get_temp(self) -> float | None:
-# 	try:
-# 		return self.sensor.temperature
-# 	except Exception as error:
-# 		print(error)
-# 		return None
-#
-# def __get_humid(self) -> float | None:
-# 	try:
-# 		return self.sensor.humidity
-# 	except Exception as error:
-# 		print(error)
-# 		return None
-
-
-class ILI9341(OutputDevice):
-	def __init__(self, pin_number: int) -> None:
-		pass
-
-	def __exit__(self) -> None:
-		pass
+# 	def __exit__(self) -> None:
+# 		pass
 
 
 class LCD(OutputDevice):
-	def __init__(self, pin_number: int) -> None:
-		# TODO: Put setup into setup.py
-		lcd_rs = digitalio.DigitalInOut(board.D26)
-		lcd_en = digitalio.DigitalInOut(board.D19)
-		lcd_d7 = digitalio.DigitalInOut(board.D27)
-		lcd_d6 = digitalio.DigitalInOut(board.D22)
-		lcd_d5 = digitalio.DigitalInOut(board.D24)
-		lcd_d4 = digitalio.DigitalInOut(board.D25)
-
-		lcd_columns = 16
-		lcd_rows = 2
-
-		lcd = character_lcd.Character_LCD_Mono(
-			lcd_rs,
-			lcd_en,
-			lcd_d4,
-			lcd_d5,
-			lcd_d6,
-			lcd_d7,
-			lcd_columns,
-			lcd_rows,
-		)
-
-		# TODO: Put write into its own message
-		lcd.message = 'Hello\nCircuitPython'
-		pass
+	def __init__(self, rs: int, en: int, seven: int, six: int, five: int, four: int, columns: int, rows: int) -> None:
+		self.display = setup.lcd(rs, en, seven, six, five, four, columns, rows)
 
 	def __exit__(self) -> None:
+		self.display.clear()
 		pass
+
+	def writeToDisplay(self, text: str):
+		self.display.message = text
