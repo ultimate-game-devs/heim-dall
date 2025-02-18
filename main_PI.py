@@ -9,14 +9,14 @@ motion = Motion(17)
 dht = DHT22(4)
 button = Button(23)
 
+text: str = ''
+oldText: str = ''
+show_temp = True
+
 while True:
 	movement = motion.get_data()
 	if not movement:
 		continue
-
-	text: str = ''
-	oldText: str = ''
-	show_temp = True
 
 	while movement:
 		pressed = button.get_data()
