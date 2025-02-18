@@ -26,14 +26,14 @@ def ssd1306(cords: list[tuple[int | Any, int | Any]]) -> None:
 	display.show()
 
 	# Set a pixel in the origin 0,0 position.
-	display.pixel(0, 0, 1)
+	# display.pixel(0, 0, 1)
 	# Set a pixel in the middle 64, 16 position.
-	display.pixel(64, 16, 1)
+	# display.pixel(64, 16, 1)
 	# # Set a pixel in the opposite 127, 31 position.
-	display.pixel(127, 31, 1)
+	# display.pixel(127, 31, 1)
 
-	# for i in range(len(cords)):
-	# 		display.pixel(cords[i][0], cords[i][1], 1)
+	for i in range(len(cords)):
+		display.pixel(cords[i][0], cords[i][1], 1)
 
 	display.show()
 
@@ -99,5 +99,5 @@ def text_to_pixel_coordinates(text: str) -> list[tuple[int, int]]:
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
-co = text_to_pixel_coordinates(IPAddr)
+co = text_to_pixel_coordinates("IPAddr")
 ssd1306(co)
