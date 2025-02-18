@@ -1,5 +1,3 @@
-from time import sleep
-
 from helper.inputDevices import DHT22, Motion, Button
 from helper.outputDevices import SSD1306
 
@@ -34,7 +32,6 @@ while True:
 			display.print_on_display(text)
 
 		movement = motion.get_data()
-		sleep(1)
 		oldText = text
 	display.clear_display()
 
