@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import TypedDict
 
-import setup
+import helper.setup as setup
 
 dht_data = TypedDict(
 	'dht_data', {'temperature': float | None, 'humidity': float | None}

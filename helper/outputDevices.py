@@ -3,7 +3,7 @@ from typing import List
 
 from PIL import Image, ImageDraw, ImageFont
 
-import setup
+import helper.setup as setup
 
 
 class OutputDevice(ABC):
@@ -81,15 +81,15 @@ class SSD1306(OutputDevice):
 
 class LCD(OutputDevice):
 	def __init__(
-		self,
-		rs: int,
-		en: int,
-		seven: int,
-		six: int,
-		five: int,
-		four: int,
-		columns: int,
-		rows: int,
+			self,
+			rs: int,
+			en: int,
+			seven: int,
+			six: int,
+			five: int,
+			four: int,
+			columns: int,
+			rows: int,
 	) -> None:
 		self.display = setup.lcd(rs, en, seven, six, five, four, columns, rows)
 
