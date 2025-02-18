@@ -25,15 +25,15 @@ def ssd1306(cords: list[tuple[int | Any, int | Any]]) -> None:
 
 	display.show()
 
+	for i in range(len(cords)):
+		display.pixel(cords[i][0], cords[i][1], 1)
+
 	# Set a pixel in the origin 0,0 position.
-	# display.pixel(0, 0, 1)
+	display.pixel(0, 0, 1)
 	# Set a pixel in the middle 64, 16 position.
 	# display.pixel(64, 16, 1)
 	# # Set a pixel in the opposite 127, 31 position.
-	# display.pixel(127, 31, 1)
-
-	for i in range(len(cords)):
-		display.pixel(cords[i][0], cords[i][1], 1)
+	display.pixel(127, 31, 0)
 
 	display.show()
 
@@ -91,7 +91,7 @@ def text_to_pixel_coordinates(text: str) -> list[tuple[int, int]]:
 	cords = []
 	for y in range(image_height):
 		for x in range(image_width):
-			if x > 128:
+			if x < 128:
 				print((x, y))
 				cords.append((x, y))
 	return cords
