@@ -40,7 +40,7 @@ class SSD1306(OutputDevice):
 		font_height = 1000
 		font_width = 1000
 		font_size = 1000
-		font_path = 'fonts/Roboto-Regular.ttf'
+		font_path = '../fonts/Roboto-Regular.ttf'
 
 		while font_width > self.max_width or font_height > self.max_height:
 			try:

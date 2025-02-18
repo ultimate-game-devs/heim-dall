@@ -2,7 +2,7 @@ import socket
 
 import psutil
 
-from outputDevices import SSD1306
+from helper.outputDevices import SSD1306
 
 display = SSD1306()
 

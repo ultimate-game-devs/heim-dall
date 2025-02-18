@@ -1,6 +1,6 @@
 from time import localtime
 
-from inputDevices import DHT22
+from helper.inputDevices import DHT22
 
 dht = DHT22(4)
 
