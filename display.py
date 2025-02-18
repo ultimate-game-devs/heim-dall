@@ -26,7 +26,7 @@ def ssd1306(pixel: List[tuple[int, int]]) -> None:
 	display.show()
 
 	for i in range(len(pixel)):
-		display.pixel(pixel[i][0], pixel[i][1], pixel[i][2])
+		display.pixel(pixel[i][0], pixel[i][1], 1)
 
 	# Set a pixel in the origin 0,0 position.
 	# display.pixel(0, 0, 1)
