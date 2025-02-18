@@ -38,6 +38,7 @@ class SSD1306(OutputDevice):
 		self.resetDisplay()
 		cords = self.__text_to_pixel_coordinates(text)
 		for i in range(len(cords)):
+			print(i, cords[i])
 			self.display.pixel(cords[i][0], cords[i][1], 1)
 		self.display.show()
 
@@ -67,8 +68,8 @@ class SSD1306(OutputDevice):
 		image_width, image_height = image.size
 
 		pixel = []
-		for y in range(image_height - 1):
-			for x in range(image_width - 1):
+		for y in range(image_height):
+			for x in range(image_width):
 				value = image.getpixel((x, y))
 				if value > 50:
 					pixel.append((x, y))
