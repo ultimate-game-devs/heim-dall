@@ -1,41 +1,14 @@
 import socket
-from typing import List
 
 import adafruit_character_lcd.character_lcd as character_lcd
-import adafruit_ssd1306
 import board
-import busio
 import digitalio
-from PIL import Image, ImageDraw, ImageFont
+
+from outputDevices import SSD1306
 
 
 def ili9341() -> None:
 	pass
-
-
-def ssd1306(pixel: List[tuple[int, int]]) -> None:
-	i2c = busio.I2C(board.SCL, board.SDA)
-	display = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
-	# Alternatively you can change the I2C address of the device with an addr parameter:
-	# display = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c, addr=0x31)
-
-	# Clear the display. Always call show after changing pixels to make the display
-	# update visible!
-	display.fill(0)
-
-	display.show()
-
-	for i in range(len(pixel)):
-		display.pixel(pixel[i][0], pixel[i][1], 1)
-
-	# Set a pixel in the origin 0,0 position.
-	# display.pixel(0, 0, 1)
-	# Set a pixel in the middle 64, 16 position.
-	# display.pixel(64, 16, 1)
-	# # Set a pixel in the opposite 127, 31 position.
-	# display.pixel(127, 31, 0)
-
-	display.show()
 
 
 def lcd() -> None:
@@ -63,43 +36,9 @@ def lcd() -> None:
 	lcd.message = 'Hello\nCircuitPython'
 
 
-def text_to_pixel_coordinates(text: str) -> List[tuple[int, int]]:
-	font_height = 1000
-	font_width = 1000
-	font_path = 'fonts/Roboto-Regular.ttf'
-	font_size = 1000
-	max_width = 127
-	max_height = 31
-
-	while font_width > max_width or font_height > max_height:
-		try:
-			font = ImageFont.truetype(font_path, font_size)
-		except IOError:
-			raise IOError(f'Font file not found at path: {font_path}')
-
-		bbox = font.getbbox(text)
-		font_width = bbox[2]
-		font_height = bbox[3]
-
-		if font_width > max_width or font_height > max_height:
-			font_size -= 1
-
-	image = Image.new('L', (max_width, max_height))
-	draw = ImageDraw.Draw(image)
-	draw.text((0, 0), text, fill=255, font=font)
-
-	image_width, image_height = image.size
-
-	pixel = []
-	for y in range(image_height):
-		for x in range(image_width):
-			value = image.getpixel((x, y))
-			if value > 50:
-				pixel.append((x, y))
-	return pixel
-
+display = SSD1306()
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
-co = text_to_pixel_coordinates("IPAddr")
-ssd1306(co)
+
+display.printOnDisplay(IPAddr)
