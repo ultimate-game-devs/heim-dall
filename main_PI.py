@@ -50,3 +50,5 @@ while True:
 		oldText = text
 		sleep(0.2)
 	display.clear_display()
+
+# TODO: Add a comparision that checks if a pixel is already on or not | If on change nothing
