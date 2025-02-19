@@ -24,24 +24,24 @@ class InputDevice(ABC):
 
 class DHT11(InputDevice):
 	def __init__(self, pin_number: int) -> None:
-		self.sensor = setup.dht11(pin_number)
+		self.__sensor = setup.dht11(pin_number)
 
 	def __exit__(self) -> None:
-		self.sensor.exit()
+		self.__sensor.exit()
 
 	def get_data(self) -> dht_data:
 		return {'temperature': self.__get_temp(), 'humidity': self.__get_humid()}
 
 	def __get_temp(self) -> float | None:
 		try:
-			return self.sensor.temperature
+			return self.__sensor.temperature
 		except Exception as error:
 			print(error)
 			return None
 
 	def __get_humid(self) -> float | None:
 		try:
-			return self.sensor.humidity
+			return self.__sensor.humidity
 		except Exception as error:
 			print(error)
 			return None
@@ -49,24 +49,24 @@ class DHT11(InputDevice):
 
 class DHT22(InputDevice):
 	def __init__(self, pin_number: int) -> None:
-		self.sensor = setup.dht22(pin_number)
+		self.__sensor = setup.dht22(pin_number)
 
 	def __exit__(self) -> None:
-		self.sensor.exit()
+		self.__sensor.exit()
 
 	def get_data(self) -> dht_data:
 		return {'temperature': self.__get_temp(), 'humidity': self.__get_humid()}
 
 	def __get_temp(self) -> float | None:
 		try:
-			return self.sensor.temperature
+			return self.__sensor.temperature
 		except Exception as error:
 			print(error)
 			return None
 
 	def __get_humid(self) -> float | None:
 		try:
-			return self.sensor.humidity
+			return self.__sensor.humidity
 		except Exception as error:
 			print(error)
 			return None
@@ -74,21 +74,21 @@ class DHT22(InputDevice):
 
 class Motion(InputDevice):
 	def __init__(self, pin_number: int) -> None:
-		self.sensor = setup.motion(pin_number)
+		self.__sensor = setup.motion(pin_number)
 
 	def __exit__(self) -> None:
-		self.sensor.deinit()
+		self.__sensor.deinit()
 
 	def get_data(self) -> bool:
-		return self.sensor.value
+		return self.__sensor.value
 
 
 class Button(InputDevice):
 	def __init__(self, pin_number: int) -> None:
-		self.button = setup.button(pin_number)
+		self.__button = setup.button(pin_number)
 
 	def __exit__(self) -> None:
-		self.button.deinit()
+		self.__button.deinit()
 
 	def get_data(self) -> bool:
-		return self.button.value
+		return self.__button.value
