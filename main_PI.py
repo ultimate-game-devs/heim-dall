@@ -2,6 +2,7 @@ import time
 from time import sleep
 
 from helper.inputDevices import DHT22, Motion, Button
+from helper.mqtt import MQTT
 from helper.outputDevices import SSD1306
 
 # Setup components
@@ -14,6 +15,8 @@ text: str = ''
 old_text: str = ''
 show: str = 'temperature'
 
+client = MQTT('10.103.48.1', 'main_PI')
+
 while True:
 	movement = motion.get_data()
 	if not movement:
@@ -25,20 +28,43 @@ while True:
 
 		if not pressed:
 			match show:
-				case 'temperature':
+				case 'inside_temperature':
 					show = 'humidity'
-				case 'humidity':
+				case 'inside_humidity':
+					show = 'outside_temperature'
+				case 'outside_temperature':
+					if client.check_connection():
+						show = 'outside_humidity'
+					else:
+						show = 'clock'
+				case 'outside_humidity':
 					show = 'clock'
 				case 'clock':
-					show = 'temperature'
+					show = 'inside_temperature'
 				case _:
-					show = 'temperature'
+					show = 'inside_temperature'
 
 		match show:
-			case 'temperature':
-				text = str(temp_humid['temperature']) + '°C'
-			case 'humidity':
-				text = str(temp_humid['humidity']) + '%'
+			case 'inside_temperature':
+				text = f"In: {str(temp_humid['temperature'])}°C"
+			case 'inside_humidity':
+				text = f"In: {str(temp_humid['humidity'])}%"
+			case 'outside_temperature':
+				if client.check_connection():
+					show = (
+						f"Out: "
+	          f"{client.simple_subscribtion('outside/temperature').payload.decode()}°C"
+					)
+				else:
+					show = "No connection to other PI"
+			case 'outside_humidity':
+				if client.check_connection():
+					show = (
+						f"Out: "
+						f"{client.simple_subscribtion('outside/humidity').payload.decode()}%"
+					)
+				else:
+					show = "No connection to other PI"
 			case 'clock':
 				now = time.localtime()
 				text = (
