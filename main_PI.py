@@ -13,7 +13,7 @@ button = Button(23)
 
 text: str = ''
 old_text: str = ''
-show: str = 'temperature'
+show: str = 'inside_temperature'
 
 client = MQTT('10.103.48.1', 'main_PI')
 
@@ -29,7 +29,7 @@ while True:
 		if not pressed:
 			match show:
 				case 'inside_temperature':
-					show = 'humidity'
+					show = 'inside_humidity'
 				case 'inside_humidity':
 					show = 'outside_temperature'
 				case 'outside_temperature':
