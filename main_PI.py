@@ -11,7 +11,7 @@ dht = DHT22(4)
 button = Button(23)
 
 text: str = ''
-oldText: str = ''
+old_text: str = ''
 show: str = 'temperature'
 
 while True:
@@ -46,12 +46,10 @@ while True:
 					f'{now.tm_min if len(str(now.tm_min)) == 2 else "0" + str(now.tm_min)}'
 				)
 
-		if text != oldText:
+		if text != old_text:
 			display.print_on_display(text)
 
 		movement = motion.get_data()
-		oldText = text
+		old_text = text
 		sleep(0.2)
 	display.clear_display()
-
-# TODO: Add a comparision that checks if a pixel is already on or not | If on change nothing
