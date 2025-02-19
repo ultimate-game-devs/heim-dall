@@ -43,7 +43,8 @@ while True:
 				now = time.localtime()
 				text = (
 					f'{now.tm_hour if len(str(now.tm_hour)) == 2 else "0" + str(now.tm_hour)}:'
-					f'{now.tm_min if len(str(now.tm_min)) == 2 else "0" + str(now.tm_min)}'
+					f'{now.tm_min if len(str(now.tm_min)) == 2 else "0" + str(now.tm_min)}:'
+					f'{now.tm_sec if len(str(now.tm_sec)) == 2 else "0" + str(now.tm_sec)}'
 				)
 
 		if text != old_text:
