@@ -18,12 +18,12 @@ class MQTT:
 
 		# Getting username and password from the env
 		load_dotenv()
-		username = os.getenv('MQTT_Username')
-		password = os.getenv('MQTT_Password')
+		self.__username = os.getenv('MQTT_Username')
+		self.__password = os.getenv('MQTT_Password')
 
 		# Set Up Client
 		self.__client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, client_name)
-		self.__client.username_pw_set(username, password)
+		self.__client.username_pw_set(self.__username, self.__password)
 
 		# Binding callbacks
 		self.__client.on_connect = self.__on_connect
@@ -93,7 +93,7 @@ class MQTT:
 		return False
 
 	def simple_subscribtion(self, topic: str) -> mqtt.MQTTMessage:
-		msg = subscribe.simple(topic, hostname=self.__broker)
+		msg = subscribe.simple(topic, hostname=self.__broker, auth={'username': self.__username, 'password': self.__password})
 		if isinstance(msg, list):
 			msg = msg[0]
 		return msg
