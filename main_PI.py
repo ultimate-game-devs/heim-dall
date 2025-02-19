@@ -51,6 +51,7 @@ while True:
 				text = f"In: {str(temp_humid['humidity'])}%"
 			case 'outside_temperature':
 				if client.check_connection():
+					# TODO: Simple Sub funktioniert nicht - Ich bekomme zumindest nichts angezeigt - Sollte prints hinzufügen
 					show = (
 						f"Out: "
 	          f"{client.simple_subscribtion('outside/temperature').payload.decode()}°C"
