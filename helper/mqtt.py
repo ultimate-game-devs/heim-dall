@@ -3,6 +3,7 @@ from time import sleep
 
 import paho.mqtt.client as mqtt
 from dotenv import load_dotenv
+from paho.mqtt import subscribe
 from paho.mqtt.client import Client, ConnectFlags
 from paho.mqtt.properties import Properties
 from paho.mqtt.reasoncodes import ReasonCode
@@ -10,6 +11,8 @@ from paho.mqtt.reasoncodes import ReasonCode
 
 class MQTT:
 	def __init__(self, broker: str, client_name: str) -> None:
+		self.__broker = broker
+
 		print('Client Name', client_name)
 		self.__client_name = client_name
 
@@ -89,5 +92,14 @@ class MQTT:
 		print(f'Something went wrong when subscribing | Error Code {subreturn[0]}')
 		return False
 
+	def simple_subscribtion(self, topic: str) -> mqtt.MQTTMessage:
+		msg = subscribe.simple(topic, hostname=self.__broker)
+		if isinstance(msg, list):
+			msg = msg[0]
+		return msg
+
 	def check_connection(self) -> bool:
 		return self.__client.is_connected()
+
+	def reconnect(self) -> None:
+		self.__client.reconnect()
