@@ -41,7 +41,10 @@ while True:
 				text = str(temp_humid['humidity']) + '%'
 			case 'clock':
 				now = time.localtime()
-				text = f"{now.tm_hour if len(str(now.tm_hour)) == 2 else '0' + str(now.tm_hour)}:{now.tm_min if len(str(now.tm_min)) == 2 else '0' + str(now.tm_min)}"
+				text = (
+					f'{now.tm_hour if len(str(now.tm_hour)) == 2 else "0" + str(now.tm_hour)}:'
+					f'{now.tm_min if len(str(now.tm_min)) == 2 else "0" + str(now.tm_min)}'
+				)
 
 		if text != oldText:
 			display.print_on_display(text)

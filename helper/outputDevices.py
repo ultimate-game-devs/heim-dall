@@ -26,17 +26,16 @@ class SSD1306(OutputDevice):
 		self.clear_display()
 
 	def print_on_display(self, text: str) -> None:
-		self.clear_display()
 		cords = self.__text_to_pixel_coordinates(text)
 		for i in range(len(cords)):
-			self.__display.pixel(cords[i][0], cords[i][1], 1)
+			self.__display.pixel(cords[i][0], cords[i][1], cords[i][2])
 		self.__display.show()
 
 	def clear_display(self) -> None:
 		self.__display.fill(0)
 		self.__display.show()
 
-	def __text_to_pixel_coordinates(self, text: str) -> List[tuple[int, int]]:
+	def __text_to_pixel_coordinates(self, text: str) -> List[tuple[int, int, int]]:
 		font_height = 1000
 		font_width = 1000
 		font_size = 1000
@@ -66,7 +65,10 @@ class SSD1306(OutputDevice):
 			for x in range(image_width):
 				value = image.getpixel((x, y))
 				if value > 50:
-					pixel.append((x, y))
+					value = 1
+				else:
+					value = 0
+				pixel.append((x, y, value))
 		return pixel
 
 
@@ -81,15 +83,15 @@ class SSD1306(OutputDevice):
 
 class LCD(OutputDevice):
 	def __init__(
-			self,
-			rs: int,
-			en: int,
-			seven: int,
-			six: int,
-			five: int,
-			four: int,
-			columns: int,
-			rows: int,
+		self,
+		rs: int,
+		en: int,
+		seven: int,
+		six: int,
+		five: int,
+		four: int,
+		columns: int,
+		rows: int,
 	) -> None:
 		self.__display = setup.lcd(rs, en, seven, six, five, four, columns, rows)
 
