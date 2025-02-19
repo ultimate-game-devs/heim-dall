@@ -1,7 +1,7 @@
 import random
 from time import sleep
 
-from mqtt import MQTT
+from helper.mqtt import MQTT
 
 client1 = MQTT('10.174.207.237', str(random.randint(0, 9999)))
 client1.publish('Code/Testing', 'Ich habe es geschafft')
