@@ -1,7 +1,11 @@
+import socket
 import time
 from time import sleep
 
+import psutil
+
 from helper.inputDevices import DHT22, Motion, Button
+from helper.mqtt import MQTT
 from helper.outputDevices import SSD1306
 
 # Setup components
@@ -12,7 +16,20 @@ button = Button(23)
 
 text: str = ''
 old_text: str = ''
-show: str = 'temperature'
+show: str = 'inside_temperature'
+
+stats = psutil.net_if_stats()
+addresses = psutil.net_if_addrs()
+
+ip = ''
+
+for iface, stat in stats.items():
+	if stat.isup:
+		for snic in addresses.get(iface, []):
+			if snic.family == socket.AF_INET:
+				ip = snic.address
+
+client = MQTT(ip, 'main_PI')
 
 while True:
 	movement = motion.get_data()
@@ -25,20 +42,42 @@ while True:
 
 		if not pressed:
 			match show:
-				case 'temperature':
-					show = 'humidity'
-				case 'humidity':
+				case 'inside_temperature':
+					show = 'inside_humidity'
+				case 'inside_humidity':
+					show = 'outside_temperature'
+				case 'outside_temperature':
+					if client.check_connection():
+						show = 'outside_humidity'
+					else:
+						show = 'clock'
+				case 'outside_humidity':
 					show = 'clock'
 				case 'clock':
-					show = 'temperature'
+					show = 'inside_temperature'
 				case _:
-					show = 'temperature'
+					show = 'inside_temperature'
 
 		match show:
-			case 'temperature':
-				text = str(temp_humid['temperature']) + '°C'
-			case 'humidity':
-				text = str(temp_humid['humidity']) + '%'
+			case 'inside_temperature':
+				text = f'In: {str(temp_humid["temperature"])}°C'
+			case 'inside_humidity':
+				text = f'In: {str(temp_humid["humidity"])}%'
+			case 'outside_temperature':
+				if client.check_connection():
+					text = (
+						f'Out: '
+						f'{client.simple_subscription("outside/temperature").payload.decode()}°C'
+					)
+				else:
+					text = 'No connection to other PI'
+			case 'outside_humidity':
+				if client.check_connection():
+					text = (
+						f'Out: {client.simple_subscription("outside/humidity").payload.decode()}%'
+					)
+				else:
+					text = 'No connection to other PI'
 			case 'clock':
 				now = time.localtime()
 				text = (
