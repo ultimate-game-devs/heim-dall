@@ -92,12 +92,13 @@ class MQTT:
 		print(f'Something went wrong when subscribing | Error Code {subreturn[0]}')
 		return False
 
-	def simple_subscribtion(self, topic: str) -> mqtt.MQTTMessage:
+	def simple_subscription(self, topic: str) -> mqtt.MQTTMessage:
 		try:
 			msg = subscribe.simple(
 				topic,
 				hostname=self.__broker,
 				auth={'username': self.__username, 'password': self.__password},
+				retained=False
 			)
 			if isinstance(msg, list):
 				msg = msg[0]

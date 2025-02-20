@@ -66,10 +66,9 @@ while True:
 			case 'outside_temperature':
 				print('trying to get outside temp')
 				if client.check_connection():
-					# TODO: Simple Sub funktioniert nicht - Ich bekomme zumindest nichts angezeigt - Sollte prints hinzufügen
 					text = (
 						f'Out: '
-						f'{client.simple_subscribtion("outside/temperature").payload.decode()}°C'
+						f'{client.simple_subscription("outside/temperature").payload.decode()}°C'
 					)
 				else:
 					text = 'No connection to other PI'
@@ -77,7 +76,7 @@ while True:
 				print('trying to get outside humid')
 				if client.check_connection():
 					text = (
-						f'Out: {client.simple_subscribtion("outside/humidity").payload.decode()}%'
+						f'Out: {client.simple_subscription("outside/humidity").payload.decode()}%'
 					)
 				else:
 					text = 'No connection to other PI'
