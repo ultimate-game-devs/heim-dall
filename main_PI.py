@@ -1,5 +1,5 @@
+import socket
 import time
-from socket import socket
 from time import sleep
 
 import psutil
