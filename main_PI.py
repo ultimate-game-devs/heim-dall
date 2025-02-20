@@ -70,21 +70,23 @@ while True:
 			case 'inside_humidity':
 				text = f'In: {str(temp_humid["humidity"])}%'
 			case 'outside_temperature':
+				print('trying to get outside temp')
 				if client.check_connection():
 					# TODO: Simple Sub funktioniert nicht - Ich bekomme zumindest nichts angezeigt - Sollte prints hinzufügen
-					show = (
+					text = (
 						f'Out: '
 						f'{client.simple_subscribtion("outside/temperature").payload.decode()}°C'
 					)
 				else:
-					show = 'No connection to other PI'
+					text = 'No connection to other PI'
 			case 'outside_humidity':
+				print('trying to get outside humid')
 				if client.check_connection():
-					show = (
+					text = (
 						f'Out: {client.simple_subscribtion("outside/humidity").payload.decode()}%'
 					)
 				else:
-					show = 'No connection to other PI'
+					text = 'No connection to other PI'
 			case 'clock':
 				now = time.localtime()
 				text = (
