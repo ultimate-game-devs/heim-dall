@@ -36,11 +36,16 @@ while True:
 	if not movement:
 		continue
 
+	print('movement: ', movement)
+
 	while movement:
 		pressed = button.get_data()
 		temp_humid = dht.get_data()
 
+		print('button', pressed)
+
 		if not pressed:
+			print('oldShow:', show)
 			match show:
 				case 'inside_temperature':
 					show = 'inside_humidity'
@@ -57,6 +62,7 @@ while True:
 					show = 'inside_temperature'
 				case _:
 					show = 'inside_temperature'
+			print('newShow:', show)
 
 		match show:
 			case 'inside_temperature':
@@ -86,11 +92,13 @@ while True:
 					f'{now.tm_min if len(str(now.tm_min)) == 2 else "0" + str(now.tm_min)}:'
 					f'{now.tm_sec if len(str(now.tm_sec)) == 2 else "0" + str(now.tm_sec)}'
 				)
+		print('newText', text)
 
 		if text != old_text:
 			display.print_on_display(text)
 
 		movement = motion.get_data()
+		print('newMovement', movement)
 		old_text = text
 		sleep(0.2)
 	display.clear_display()

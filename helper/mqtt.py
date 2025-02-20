@@ -43,12 +43,12 @@ class MQTT:
 
 	# Callback functions
 	def __on_connect(
-		self,
-		client: Client,
-		userdata: any,
-		flags: ConnectFlags,
-		reason_code: ReasonCode,
-		properties: Properties,
+			self,
+			client: Client,
+			userdata: any,
+			flags: ConnectFlags,
+			reason_code: ReasonCode,
+			properties: Properties,
 	) -> None:
 		if flags.session_present:
 			print(f'Session is resumed or something | flags {flags}')
@@ -58,7 +58,7 @@ class MQTT:
 			print(f'Bad connection | reason_code {reason_code}')
 
 	def __on_message(
-		self, client: Client, userdata: any, message: mqtt.MQTTMessage
+			self, client: Client, userdata: any, message: mqtt.MQTTMessage
 	) -> None:
 		# Connection to db to save Data - maybe not needed
 		if message.topic == self.__client_name:
@@ -93,14 +93,18 @@ class MQTT:
 		return False
 
 	def simple_subscribtion(self, topic: str) -> mqtt.MQTTMessage:
-		msg = subscribe.simple(
-			topic,
-			hostname=self.__broker,
-			auth={'username': self.__username, 'password': self.__password},
-		)
-		if isinstance(msg, list):
-			msg = msg[0]
-		return msg
+		try:
+			msg = subscribe.simple(
+				topic,
+				hostname=self.__broker,
+				auth={'username': self.__username, 'password': self.__password},
+			)
+			if isinstance(msg, list):
+				msg = msg[0]
+			return msg
+		except Exception as error:
+			print(error)
+			return mqtt.MQTTMessage()
 
 	def check_connection(self) -> bool:
 		return self.__client.is_connected()
