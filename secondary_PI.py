@@ -11,12 +11,9 @@ humidity: float = 10000000
 
 while True:
 	data = dht.get_data()
-	if temperature != data['temperature']:
-		client.publish('outside/temperature', data['temperature'])
-		temperature = data['temperature']
-	if humidity != data['humidity']:
-		client.publish('outside/humidity', data['humidity'])
-		humidity = data['humidity']
+
+	client.publish('outside/temperature', data['temperature'])
+	client.publish('outside/humidity', data['humidity'])
 
 	while not client.check_connection():
 		client.reconnect()
