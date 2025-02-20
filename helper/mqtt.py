@@ -98,7 +98,7 @@ class MQTT:
 				topic,
 				hostname=self.__broker,
 				auth={'username': self.__username, 'password': self.__password},
-				retained=False
+				keepalive=2
 			)
 			if isinstance(msg, list):
 				msg = msg[0]
