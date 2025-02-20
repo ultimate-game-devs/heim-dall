@@ -1,5 +1,8 @@
 import time
+from socket import socket
 from time import sleep
+
+import psutil
 
 from helper.inputDevices import DHT22, Motion, Button
 from helper.mqtt import MQTT
@@ -15,7 +18,18 @@ text: str = ''
 old_text: str = ''
 show: str = 'inside_temperature'
 
-client = MQTT('10.103.48.1', 'main_PI')
+stats = psutil.net_if_stats()
+addresses = psutil.net_if_addrs()
+
+ip = ''
+
+for iface, stat in stats.items():
+	if stat.isup:
+		for snic in addresses.get(iface, []):
+			if snic.family == socket.AF_INET:
+				ip = snic.address
+
+client = MQTT(ip, 'main_PI')
 
 while True:
 	movement = motion.get_data()
@@ -46,26 +60,25 @@ while True:
 
 		match show:
 			case 'inside_temperature':
-				text = f"In: {str(temp_humid['temperature'])}°C"
+				text = f'In: {str(temp_humid["temperature"])}°C'
 			case 'inside_humidity':
-				text = f"In: {str(temp_humid['humidity'])}%"
+				text = f'In: {str(temp_humid["humidity"])}%'
 			case 'outside_temperature':
 				if client.check_connection():
 					# TODO: Simple Sub funktioniert nicht - Ich bekomme zumindest nichts angezeigt - Sollte prints hinzufügen
 					show = (
-						f"Out: "
-	          f"{client.simple_subscribtion('outside/temperature').payload.decode()}°C"
+						f'Out: '
+						f'{client.simple_subscribtion("outside/temperature").payload.decode()}°C'
 					)
 				else:
-					show = "No connection to other PI"
+					show = 'No connection to other PI'
 			case 'outside_humidity':
 				if client.check_connection():
 					show = (
-						f"Out: "
-						f"{client.simple_subscribtion('outside/humidity').payload.decode()}%"
+						f'Out: {client.simple_subscribtion("outside/humidity").payload.decode()}%'
 					)
 				else:
-					show = "No connection to other PI"
+					show = 'No connection to other PI'
 			case 'clock':
 				now = time.localtime()
 				text = (

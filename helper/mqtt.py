@@ -93,7 +93,11 @@ class MQTT:
 		return False
 
 	def simple_subscribtion(self, topic: str) -> mqtt.MQTTMessage:
-		msg = subscribe.simple(topic, hostname=self.__broker, auth={'username': self.__username, 'password': self.__password})
+		msg = subscribe.simple(
+			topic,
+			hostname=self.__broker,
+			auth={'username': self.__username, 'password': self.__password},
+		)
 		if isinstance(msg, list):
 			msg = msg[0]
 		return msg
