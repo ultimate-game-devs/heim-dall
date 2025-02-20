@@ -64,7 +64,6 @@ while True:
 			case 'inside_humidity':
 				text = f'In: {str(temp_humid["humidity"])}%'
 			case 'outside_temperature':
-				print('trying to get outside temp')
 				if client.check_connection():
 					text = (
 						f'Out: '
@@ -73,7 +72,6 @@ while True:
 				else:
 					text = 'No connection to other PI'
 			case 'outside_humidity':
-				print('trying to get outside humid')
 				if client.check_connection():
 					text = (
 						f'Out: {client.simple_subscription("outside/humidity").payload.decode()}%'
