@@ -4,7 +4,7 @@ from time import sleep
 
 import psutil
 
-from helper.inputDevices import DHT22, Motion, Button
+from helper.inputDevices import DHT22, Button, Motion
 from helper.mqtt import MQTT
 from helper.outputDevices import SSD1306
 
@@ -22,6 +22,7 @@ stats = psutil.net_if_stats()
 addresses = psutil.net_if_addrs()
 
 ip = ''
+last_send = 0
 
 for iface, stat in stats.items():
 	if stat.isup:
@@ -32,6 +33,12 @@ for iface, stat in stats.items():
 client = MQTT(ip, 'main_PI')
 
 while True:
+	data = dht.get_data()
+	if client.check_connection() and time.time() - last_send >= 120:
+		client.publish('inside/temperature', data['temperature'])
+		client.publish('inside/humidity', data['humidity'])
+		last_send = time.time()
+
 	movement = motion.get_data()
 	if not movement:
 		continue
