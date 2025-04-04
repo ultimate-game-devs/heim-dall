@@ -11,7 +11,7 @@ def dht11(pin_number: int) -> adafruit_dht.DHT11:
 	return adafruit_dht.DHT11(board_pin)
 
 
-def dht22(pin_number: int) -> adafruit_dht.DHT11:
+def dht22(pin_number: int) -> adafruit_dht.DHT22:
 	board_pin = getattr(board, f'D{pin_number}')
 	return adafruit_dht.DHT22(board_pin)
 
